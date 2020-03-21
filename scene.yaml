@@ -63,9 +63,6 @@ textures:
     line-texture:
         url: images/stipple2-r.png
 
-    palette:
-        url: images/ramp.png
-
     red:
         width: 1
         height: 1
@@ -126,10 +123,7 @@ layers:
         data: { source: mapzen, layer: earth }
         draw:
             polygons:
-                # style: dots
-                style: texture-terrain-earth
-                # style: texture-zooms2
-                # style: earth-dots2
+                style: texture-2-multi-zooms
                 order: global.feature_order
                 color: [1.000,1.000,1.000]
 
@@ -138,115 +132,116 @@ layers:
         draw:
             polygons:
                 style: water-dots
+                # style: texture-terrain-conservation
                 order: global.feature_order
                 color: [0.000,0.000,0.000]
 
-        lakes:
-            filter:
-                all:
-                    - kind: [ocean, lake, water, riverbank, reservoir, swimming_pool]
-                # WARNING: any area filters here must match the area filters in the water-boundaries-not_ocean layer
-                any:
-                    # limit show smaller landuse areas to higher zooms
-                    - { $zoom: { min: 1 },  area: { min: 40000000000 } }
-                    - { $zoom: { min: 2 },  area: { min: 20000000000 } }
-                    # some weird natural earth scale set transition
-                    - { $zoom: { min: 3 },  area: { min: 80000000000 } }
-                    - { $zoom: { min: 4 },  area: { min: 5000000000 } }
-                    - { $zoom: { min: 5 },  area: { min: 700000000 } }
-                    - { $zoom: { min: 6 },  area: { min: 500000000 } }
-                    - { $zoom: { min: 7 },  area: { min: 160000000 } }
-                    - { $zoom: { min: 8 },  area: { min: 40000000 } }
-                    - { $zoom: { min: 9 },  area: { min: 10000000 } }
-                    - { $zoom: { min: 10 }, area: { min: 8000000 } }
-                    - { $zoom: { min: 11 }, area: { min: 2000000 } }
-                    - { $zoom: { min: 12 }, area: { min: 200000 } }
-                    - { $zoom: { min: 13 }, area: { min: 100000 } }
-                    - { $zoom: { min: 14 }, area: { min: 2000 } }
-                    - { $zoom: { min: 15 } }
-            draw:
-                polygons:
-                    style: water-dots
+        # lakes:
+        #     filter:
+        #         all:
+        #             - kind: [ocean, lake, water, riverbank, reservoir, swimming_pool]
+        #         # WARNING: any area filters here must match the area filters in the water-boundaries-not_ocean layer
+        #         any:
+        #             # limit show smaller landuse areas to higher zooms
+        #             - { $zoom: { min: 1 },  area: { min: 40000000000 } }
+        #             - { $zoom: { min: 2 },  area: { min: 20000000000 } }
+        #             # some weird natural earth scale set transition
+        #             - { $zoom: { min: 3 },  area: { min: 80000000000 } }
+        #             - { $zoom: { min: 4 },  area: { min: 5000000000 } }
+        #             - { $zoom: { min: 5 },  area: { min: 700000000 } }
+        #             - { $zoom: { min: 6 },  area: { min: 500000000 } }
+        #             - { $zoom: { min: 7 },  area: { min: 160000000 } }
+        #             - { $zoom: { min: 8 },  area: { min: 40000000 } }
+        #             - { $zoom: { min: 9 },  area: { min: 10000000 } }
+        #             - { $zoom: { min: 10 }, area: { min: 8000000 } }
+        #             - { $zoom: { min: 11 }, area: { min: 2000000 } }
+        #             - { $zoom: { min: 12 }, area: { min: 200000 } }
+        #             - { $zoom: { min: 13 }, area: { min: 100000 } }
+        #             - { $zoom: { min: 14 }, area: { min: 2000 } }
+        #             - { $zoom: { min: 15 } }
+        #     draw:
+        #         polygons:
+        #             style: water-dots
 
-        other_areas:
-            filter: { not: { kind: [ocean, lake, water, reservoir] }, $zoom: { min: 10 }, area: { min: 100 } }
-            draw:
-                polygons:
-                    style: water-dots
+        # other_areas:
+        #     filter: { not: { kind: [ocean, lake, water, reservoir] }, $zoom: { min: 10 }, area: { min: 100 } }
+        #     draw:
+        #         polygons:
+        #             style: water-dots
 
-        playas:
-            filter: { kind: playa, $zoom: { min: 4 } }
-            draw:
-                polygons:
-                    style: earth-dots2
-                    order: global.feature_order
-                    color: [0.500,0.500,0.500]
+        # playas:
+        #     filter: { kind: playa, $zoom: { min: 4 } }
+        #     draw:
+        #         polygons:
+        #             style: earth-dots2
+        #             order: global.feature_order
+        #             color: [0.500,0.500,0.500]
 
-        boundaries:
-            filter: { boundary: true, kind: ocean }
-            # don't animate early, save the fan, save the planet!
-            early:
-                filter: { $zoom: { max: 16 } }
-                draw:
-                    lines:
-                        style: coastline-glow
-                        order: global.feature_order
-                        width: [[4,0px],[11,2.5px],[14,6px],[16,10px]]
-                        color: [0.600,0.600,0.600]
-                        join: round
-            animated:
-                filter: { $zoom: { min: 16 } }
-                draw:
-                    lines:
-                        style: water-boundaries-animated
-                        order: global.feature_order
-                        width: [[16,21px],[18,30px],[20,36]]
-                        color: [0.600,0.600,0.600]
-                        join: round
+        # boundaries:
+        #     filter: { boundary: true, kind: ocean }
+        #     # don't animate early, save the fan, save the planet!
+        #     early:
+        #         filter: { $zoom: { max: 16 } }
+        #         draw:
+        #             lines:
+        #                 style: coastline-glow
+        #                 order: global.feature_order
+        #                 width: [[4,0px],[11,2.5px],[14,6px],[16,10px]]
+        #                 color: [0.600,0.600,0.600]
+        #                 join: round
+        #     animated:
+        #         filter: { $zoom: { min: 16 } }
+        #         draw:
+        #             lines:
+        #                 style: water-boundaries-animated
+        #                 order: global.feature_order
+        #                 width: [[16,21px],[18,30px],[20,36]]
+        #                 color: [0.600,0.600,0.600]
+        #                 join: round
 
-        boundaries-not_ocean:
-            filter:
-                all:
-                    - boundary: true
-                    - not: { kind: [ocean, playa] }
-                    - $zoom: { min: 8 }
-                # WARNING: any area filters here must match the area filters in the lakes layer
-                any:
-                    # limit show smaller landuse areas to higher zooms
-                    - { $zoom: { min: 1 },  area: { min: 40000000000 } }
-                    - { $zoom: { min: 2 },  area: { min: 20000000000 } }
-                    # some weird natural earth scale set transition
-                    - { $zoom: { min: 3 },  area: { min: 80000000000 } }
-                    - { $zoom: { min: 4 },  area: { min: 5000000000 } }
-                    - { $zoom: { min: 5 },  area: { min: 700000000 } }
-                    - { $zoom: { min: 6 },  area: { min: 500000000 } }
-                    - { $zoom: { min: 7 },  area: { min: 160000000 } }
-                    - { $zoom: { min: 8 },  area: { min: 40000000 } }
-                    - { $zoom: { min: 9 },  area: { min: 10000000 } }
-                    - { $zoom: { min: 10 }, area: { min: 8000000 } }
-                    - { $zoom: { min: 11 }, area: { min: 2000000 } }
-                    - { $zoom: { min: 12 }, area: { min: 200000 } }
-                    - { $zoom: { min: 13 }, area: { min: 100000 } }
-                    - { $zoom: { min: 14 }, area: { min: 2000 } }
-                    - { $zoom: { min: 15 } }
-            draw:
-                lines:
-                    order: global.feature_order
-                    color: [1.000,1.000,1.000]
-                    width: [[8,0px],[13,1px],[15,1.25px],[20,3px]]
-                    join: round
+        # boundaries-not_ocean:
+        #     filter:
+        #         all:
+        #             - boundary: true
+        #             - not: { kind: [ocean, playa] }
+        #             - $zoom: { min: 8 }
+        #         # WARNING: any area filters here must match the area filters in the lakes layer
+        #         any:
+        #             # limit show smaller landuse areas to higher zooms
+        #             - { $zoom: { min: 1 },  area: { min: 40000000000 } }
+        #             - { $zoom: { min: 2 },  area: { min: 20000000000 } }
+        #             # some weird natural earth scale set transition
+        #             - { $zoom: { min: 3 },  area: { min: 80000000000 } }
+        #             - { $zoom: { min: 4 },  area: { min: 5000000000 } }
+        #             - { $zoom: { min: 5 },  area: { min: 700000000 } }
+        #             - { $zoom: { min: 6 },  area: { min: 500000000 } }
+        #             - { $zoom: { min: 7 },  area: { min: 160000000 } }
+        #             - { $zoom: { min: 8 },  area: { min: 40000000 } }
+        #             - { $zoom: { min: 9 },  area: { min: 10000000 } }
+        #             - { $zoom: { min: 10 }, area: { min: 8000000 } }
+        #             - { $zoom: { min: 11 }, area: { min: 2000000 } }
+        #             - { $zoom: { min: 12 }, area: { min: 200000 } }
+        #             - { $zoom: { min: 13 }, area: { min: 100000 } }
+        #             - { $zoom: { min: 14 }, area: { min: 2000 } }
+        #             - { $zoom: { min: 15 } }
+        #     draw:
+        #         lines:
+        #             order: global.feature_order
+        #             color: [1.000,1.000,1.000]
+        #             width: [[8,0px],[13,1px],[15,1.25px],[20,3px]]
+        #             join: round
 
-            boundaries-not_ocean-riverbank:
-                # river boundaries like the thames in london, la seine in paris
-                filter: { kind: riverbank }
-                draw:
-                    lines:
-                        color: [1.000,1.000,1.000]
-                        width: [[8,0px],[13,1px],[15,1.25px],[20,8px]]
+        #     boundaries-not_ocean-riverbank:
+        #         # river boundaries like the thames in london, la seine in paris
+        #         filter: { kind: riverbank }
+        #         draw:
+        #             lines:
+        #                 color: [1.000,1.000,1.000]
+        #                 width: [[8,0px],[13,1px],[15,1.25px],[20,8px]]
 
     roads:
         data: { source: mapzen, layer: roads }
-        enabled: true
+        enabled: false
         draw:
             lines:
                 width: 1px
@@ -784,7 +779,7 @@ layers:
 
     landuse:
         data: { source: mapzen }
-        enabled: true
+        enabled: false
         draw:
             polygons:
                 order: global.feature_order
@@ -908,7 +903,7 @@ layers:
 
     buildings:
         data: { source: mapzen, layer: buildings }
-        enabled: true
+        enabled: false
         filter:
             not: { location: underground }
         draw:
@@ -973,71 +968,12 @@ layers:
         #             width: 1px
 
 styles:
-    texture-terrain-earth:
+    no-texture:
         base: polygons
-        raster: custom
-        shaders:
-            uniforms:
-                # two textures to cross-fade between
-                u_textures:
-                    - images/earth-dots1.jpg
-                    # OR
-                    # - images/earth-dots2.jpg
-                    # - images/earth-dots5.jpg
-                    - images/earth-dots8.jpg
-                u_zoom_fade: [12.5, 13] # zooms to start/stop cross-fade
-                u_scale: 1.00 # number of times to repeat texture in a tile
-                # u_light: [-0.5, 0.5, -0.5] # lights are flipped to match sat hillshade
-                # u_light: [0.000, -0.320, -0.725] # lights are flipped to match sat hillshade
-                u_light: [-0.675, 0.500, -0.530] # lights are flipped to match sat hillshade
-                u_ambient: 0.5
-            blocks:
-                position: |
-                    // make tile worldspace coordinates available to the global block
-                    v_pos = modelPosition();
-                global: |
-                    varying vec4 v_pos;
-                    vec4 TileTexture(sampler2D tex, float scale) {
-                        // CONTROLS
-                        // how smooth should the transition be?
-                        // 0 = snapping, 1 = continuous smoothstep crossfade
-                        float smoothness = .75;
-                        vec2 IN = v_pos.xy * scale * exp2(floor(u_map_position.z)-u_tile_origin.z);
-                        vec2 OUT = v_pos.xy * scale * exp2(floor(u_map_position.z)-u_tile_origin.z + 1.);
-                        vec4 intex = texture2D(tex,fract(IN));
-                        vec4 outtex = texture2D(tex,fract(OUT));
-                        float texf;
-                        //// linear transition
-                        // texf = fract(u_map_position.z);
-                        //// use smoothstep instead
-                        float tx = (1. - smoothness) * .5;
-                        texf = smoothstep(tx, 1.-tx, fract(u_map_position.z));
-                        return mix(intex, outtex, texf);
-                    }
-                color: |
-                    // float dz = clamp((u_map_position.z - u_zoom_fade[0]) / (u_zoom_fade[1] - u_zoom_fade[0]), 0., 1.);
-                    // color.rgb = TileTexture(u_textures[0],u_scale).rgb;
 
-                    // simple directional light with Lambert shading
-                    vec3 terrain = normalize(sampleRaster(0).xyz *2. - 1.4); // terrain surface normal
-                    float diffuse = clamp(dot(terrain, normalize(-u_light)), 0., 1.);
-                    float dz = clamp((u_ambient) + (diffuse), 0., 1.);
-
-                    // brightness at which terrain texture fade starts
-                    float edge = 0.85;
-
-                    // controls terrain texture fade transition
-                    float feather =
-                        TANGRAM_EPSILON; // hard edge
-                        // 0.025; // in between
-                        // 0.05; // soft edge
-
-                    color.rgb = mix(
-                        TileTexture(u_textures[0],u_scale).rgb,
-                        TileTexture(u_textures[1],u_scale).rgb,
-                        // 1.-step(dz, u_edge) // hard edge
-                        smoothstep(edge - feather, edge + feather, dz)
-                    );
+    polygons-transparent:
+        base: polygons
+        blend: overlay
 
     water-dots:
         base: polygons
@@ -1047,83 +983,6 @@ styles:
                 u_customtexture: images/water-dots2.jpg
                 u_scale: 0.6
 
-    water-boundaries-animated:
-        base: lines
-        mix: [lines-coast]
-        shaders:
-            defines:
-                COAST_WAVES_ANIMATED: true
-
-    lines-coast:
-        base: lines
-        animated: false
-        texcoords: true
-        blend: add
-        shaders:
-            defines:
-                COAST_WAVES_AMOUNT: 5.
-                COAST_WAVES_SPEED: 0.1
-                COAST_WAVES_ANIMATED: true
-            blocks:
-                color: |
-                    float pct = 0.0;
-                    // glow
-                    pct = smoothstep(0.,2.,1.-v_texcoord.x);
-                    // waves
-                    #ifdef COAST_WAVES_ANIMATED
-                    pct += (1.-fract(v_texcoord.x*COAST_WAVES_AMOUNT+(fract(u_time*COAST_WAVES_SPEED))))*pct;
-                    #else
-                    pct += (1.-fract(v_texcoord.x*COAST_WAVES_AMOUNT))*pct;
-                    #endif
-
-                    color *= pct;
-
-    coastline-glow:
-        base: lines
-        mix: [lines-glow]
-        shaders:
-            defines:
-                GLOW_WIDTH: .5
-                GLOW_BRIGHTNESS: .5
-
-    no-texture:
-        base: polygons
-
-    polygons-transparent:
-        base: polygons
-        blend: overlay
-
-    gradient1:
-        base: polygons
-        shaders:
-            blocks:
-                filter: |
-                    color.rgb = mix(vec3(1.000), vec3(0.050,0.050,0.050), gl_FragCoord.x / u_resolution.x); // 50% mix of white and green
-
-    dots:
-        base: polygons
-        mix: texture
-        shaders:
-            uniforms:
-                u_customtexture: images/dots2.jpg
-                u_scale: 4
-
-    earth-dots2:
-        base: polygons
-        mix: texture
-        shaders:
-            uniforms:
-                u_customtexture: images/earth-dots2.jpg
-                u_scale: 1
-
-    diagonal-dots:
-        base: polygons
-        mix: texture
-        shaders:
-            uniforms:
-                u_customtexture: images/diagonal-dot.jpg
-                u_scale: 1
-
     building-dots:
         base: polygons
         mix: texture
@@ -1132,61 +991,12 @@ styles:
                 u_customtexture: images/building-dots4.jpg
                 u_scale: 0.85
 
-    conservation:
+    texture:
         base: polygons
-        mix: texture
         shaders:
             uniforms:
-                u_customtexture: images/water-brush3.jpg
-                u_scale: 1
-
-    forest:
-        base: polygons
-        mix: texture
-        shaders:
-            uniforms:
-                u_customtexture: images/forest1.jpg
-                u_scale: 1
-
-    forest2:
-        base: polygons
-        mix: texture
-        shaders:
-            uniforms:
-                u_customtexture: images/forest2.jpg
-                u_scale: 1
-
-    park:
-        base: polygons
-        mix: texture
-        shaders:
-            uniforms:
-                u_customtexture: images/park2.jpg
-                u_scale: 1
-
-    parks2:
-        base: polygons
-        mix: texture
-        shaders:
-            uniforms:
-                u_customtexture: images/park4.jpg
-                u_scale: 1
-
-    texture-terrain-conservation:
-        base: polygons
-        raster: custom
-        shaders:
-            uniforms:
-                # two textures to cross-fade between
-                u_textures:
-                    # - images/water-brush4.jpg
-                    # - images/water2.jpg
-                    - images/water-brush1.jpg
-                    - images/water-brush3.jpg
-                u_zoom_fade: [12.5, 13] # zooms to start/stop cross-fade
+                u_customtexture: images/uv-coords.png
                 u_scale: 1. # number of times to repeat texture in a tile
-                u_light: [-0.675, 0.500, -0.530] # lights are flipped to match sat hillshade
-                u_ambient: 0.5
             blocks:
                 position: |
                     // make tile worldspace coordinates available to the global block
@@ -1211,166 +1021,19 @@ styles:
                         return mix(intex, outtex, texf);
                     }
                 color: |
-                    // float dz = clamp((u_map_position.z - u_zoom_fade[0]) / (u_zoom_fade[1] - u_zoom_fade[0]), 0., 1.);
-                    // color.rgb = TileTexture(u_textures[0],u_scale).rgb;
+                    color.rgb = TileTexture(u_customtexture,u_scale).rgb;
 
-                    // simple directional light with Lambert shading
-                    vec3 terrain = normalize(sampleRaster(0).xyz *2. - 1.4); // terrain surface normal
-                    float diffuse = clamp(dot(terrain, normalize(-u_light)), 0., 1.);
-                    float dz = clamp((u_ambient) + (diffuse), 0., 1.);
-
-                    // brightness at which terrain texture fade starts
-                    float edge = 0.85;
-
-                    // controls terrain texture fade transition
-                    float feather =
-                        TANGRAM_EPSILON; // hard edge
-                        // 0.025; // in between
-                        // 0.05; // soft edge
-
-                    color.rgb = mix(
-                        TileTexture(u_textures[0],u_scale).rgb,
-                        TileTexture(u_textures[1],u_scale).rgb,
-                        // 1.-step(dz, u_edge) // hard edge
-                        smoothstep(edge - feather, edge + feather, dz)
-                    );
-
-    texture-terrain-park:
-        base: polygons
-        raster: custom
-        shaders:
-            uniforms:
-                # two textures to cross-fade between
-                u_textures:
-                    - images/park-dots4.jpg
-                    - images/park-dots5.jpg
-                    # OR
-                    # - images/earth-dots8.jpg
-                    # - images/earth-dots9.jpg
-                    # OR
-                    # - images/earth-dots5.jpg
-                    # - images/earth-dots6.jpg
-                u_zoom_fade: [12.5, 13] # zooms to start/stop cross-fade
-                u_scale: 0.90 # number of times to repeat texture in a tile
-                u_light: [-0.675, 0.500, -0.530] # lights are flipped to match sat hillshade
-                u_ambient: 0.5
-            blocks:
-                position: |
-                    // make tile worldspace coordinates available to the global block
-                    v_pos = modelPosition();
-                global: |
-                    varying vec4 v_pos;
-                    vec4 TileTexture(sampler2D tex, float scale) {
-                        // CONTROLS
-                        // how smooth should the transition be?
-                        // 0 = snapping, 1 = continuous smoothstep crossfade
-                        float smoothness = .75;
-                        vec2 IN = v_pos.xy * scale * exp2(floor(u_map_position.z)-u_tile_origin.z);
-                        vec2 OUT = v_pos.xy * scale * exp2(floor(u_map_position.z)-u_tile_origin.z + 1.);
-                        vec4 intex = texture2D(tex,fract(IN));
-                        vec4 outtex = texture2D(tex,fract(OUT));
-                        float texf;
-                        //// linear transition
-                        // texf = fract(u_map_position.z);
-                        //// use smoothstep instead
-                        float tx = (1. - smoothness) * .5;
-                        texf = smoothstep(tx, 1.-tx, fract(u_map_position.z));
-                        return mix(intex, outtex, texf);
-                    }
-                color: |
-                    // float dz = clamp((u_map_position.z - u_zoom_fade[0]) / (u_zoom_fade[1] - u_zoom_fade[0]), 0., 1.);
-                    // color.rgb = TileTexture(u_textures[0],u_scale).rgb;
-
-                    // simple directional light with Lambert shading
-                    vec3 terrain = normalize(sampleRaster(0).xyz *2. - 1.4); // terrain surface normal
-                    float diffuse = clamp(dot(terrain, normalize(-u_light)), 0., 1.);
-                    float dz = clamp((u_ambient) + (diffuse), 0., 1.);
-
-                    // brightness at which terrain texture fade starts
-                    float edge = 0.85;
-
-                    // controls terrain texture fade transition
-                    float feather =
-                        TANGRAM_EPSILON; // hard edge
-                        // 0.025; // in between
-                        //0.05; // soft edge
-
-                    color.rgb = mix(
-                        TileTexture(u_textures[0],u_scale).rgb,
-                        TileTexture(u_textures[1],u_scale).rgb,
-                        // 1.-step(dz, u_edge) // hard edge
-                        smoothstep(edge - feather, edge + feather, dz)
-                    );
-
-    texture-terrain-forest:
-        base: polygons
-        raster: custom
-        shaders:
-            uniforms:
-                # two textures to cross-fade between
-                u_textures:
-                    - images/forest2.jpg
-                    - images/forest1.jpg
-                u_zoom_fade: [12.5, 13] # zooms to start/stop cross-fade
-                u_scale: 1. # number of times to repeat texture in a tile
-                u_light: [-0.675, 0.500, -0.530] # lights are flipped to match sat hillshade
-                u_ambient: 0.5
-            blocks:
-                position: |
-                    // make tile worldspace coordinates available to the global block
-                    v_pos = modelPosition();
-                global: |
-                    varying vec4 v_pos;
-                    vec4 TileTexture(sampler2D tex, float scale) {
-                        // CONTROLS
-                        // how smooth should the transition be?
-                        // 0 = snapping, 1 = continuous smoothstep crossfade
-                        float smoothness = .75;
-                        vec2 IN = v_pos.xy * scale * exp2(floor(u_map_position.z)-u_tile_origin.z);
-                        vec2 OUT = v_pos.xy * scale * exp2(floor(u_map_position.z)-u_tile_origin.z + 1.);
-                        vec4 intex = texture2D(tex,fract(IN));
-                        vec4 outtex = texture2D(tex,fract(OUT));
-                        float texf;
-                        //// linear transition
-                        // texf = fract(u_map_position.z);
-                        //// use smoothstep instead
-                        float tx = (1. - smoothness) * .5;
-                        texf = smoothstep(tx, 1.-tx, fract(u_map_position.z));
-                        return mix(intex, outtex, texf);
-                    }
-                color: |
-                    // float dz = clamp((u_map_position.z - u_zoom_fade[0]) / (u_zoom_fade[1] - u_zoom_fade[0]), 0., 1.);
-                    // color.rgb = TileTexture(u_textures[0],u_scale).rgb;
-
-                    // simple directional light with Lambert shading
-                    vec3 terrain = normalize(sampleRaster(0).xyz *2. - 1.4); // terrain surface normal
-                    float diffuse = clamp(dot(terrain, normalize(-u_light)), 0., 1.);
-                    float dz = clamp((u_ambient) + (diffuse), 0., 1.);
-
-                    // brightness at which terrain texture fade starts
-                    float edge = 0.85;
-
-                    // controls terrain texture fade transition
-                    float feather =
-                        TANGRAM_EPSILON; // hard edge
-                        // 0.025; // in between
-                        // 0.05; // soft edge
-
-                    color.rgb = mix(
-                        TileTexture(u_textures[0],u_scale).rgb,
-                        TileTexture(u_textures[1],u_scale).rgb,
-                        // 1.-step(dz, u_edge) // hard edge
-                        smoothstep(edge - feather, edge + feather, dz)
-                    );
-
-    texture-zooms-multi:
+    # MULTI ZOOM TRANSITION WITH WITH 4 IMAGES/TEXTURES
+    texture-4-multi-zooms:
         base: polygons
         shaders:
             defines:
                 # MUST match number of entries in u_zoom_stops below
                 NUM_TEXTURE_STOPS: 3
             uniforms:
-                u_zoom_stops: [12, 14, 17] # zooms to start/stop cross-fade
+                # zooms to start/stop cross-fade
+                u_zoom_stops: [12, 14, 17]
+                # four textures to cross-fade between
                 u_textures:
                     - images/dots2.jpg
                     - images/earth-dots4.jpg
@@ -1425,169 +1088,14 @@ styles:
                 color: |
                     color.rgb = blendTextureSet(u_map_position.z);
 
-    texture-terrain-zooms:
-        base: polygons
-        raster: custom
-        shaders:
-            uniforms:
-                # textures to fade between
-                u_texturesA:
-                    - images/dots2.jpg
-                    - images/park-dots1.jpg
-                    - images/park.jpg
-                u_texturesB:
-                    - images/diagonal-dot2.jpg
-                    - images/park-dots3.jpg
-                    - images/forest1.jpg
-                u_zoom_fade: [14, 17] # zooms to start/stop cross-fade
-                u_zoom_fade_range: 0.7 # how quickly the zoom cross-fade happens
-
-                u_scale: 1. # number of times to repeat texture in a tile
-                u_light: [-0.5, 0.5, -0.5] # lights are flipped to match sat hillshade
-                u_ambient: 0.5
-            blocks:
-                position: |
-                    // make tile worldspace coordinates available to the global block
-                    v_pos = modelPosition();
-                global: |
-                    varying vec4 v_pos;
-                    vec4 TileTexture(sampler2D tex, float scale) {
-                        // CONTROLS
-                        // how smooth should the transition be?
-                        // 0 = snapping, 1 = continuous smoothstep crossfade
-                        float smoothness = .75;
-                        vec2 IN = v_pos.xy * scale * exp2(floor(u_map_position.z)-u_tile_origin.z);
-                        vec2 OUT = v_pos.xy * scale * exp2(floor(u_map_position.z)-u_tile_origin.z + 1.);
-                        vec4 intex = texture2D(tex,fract(IN));
-                        vec4 outtex = texture2D(tex,fract(OUT));
-                        float texf;
-                        // linear transition
-                        // texf = fract(u_map_position.z);
-                        // use smoothstep instead
-                        float tx = (1. - smoothness) * .5;
-                        texf = smoothstep(tx, 1.-tx, fract(u_map_position.z));
-                        return mix(intex, outtex, texf);
-                    }
-
-                color: |
-                    // simple directional light with Lambert shading
-                    vec3 terrain = normalize(sampleRaster(0).xyz *2. - 1.4); // terrain surface normal
-                    float diffuse = clamp(dot(terrain, normalize(-u_light)), 0., 1.);
-                    float maskBlend = clamp((u_ambient) + (diffuse), 0., 1.);
-
-                    // brightness at which terrain texture fade starts
-                    float edge = 0.85;
-
-                    // controls terrain texture fade transition
-                    float feather =
-                        TANGRAM_EPSILON; // hard edge
-                        // 0.025; // in between
-                        // 0.05; // soft edge
-
-                    vec3 textureASample, textureBSample;
-                    float textureFade;
-
-                    if (u_map_position.z < u_zoom_fade[0]) {
-                        const int i = 0, j = 1;
-
-                        textureFade = 1. - clamp(u_zoom_fade[i] - u_map_position.z, 0., u_zoom_fade_range) / u_zoom_fade_range;
-
-                        textureASample = mix(
-                            TileTexture(u_texturesA[i], u_scale).rgb,
-                            TileTexture(u_texturesA[j], u_scale).rgb,
-                            textureFade);
-
-                        textureBSample = mix(
-                            TileTexture(u_texturesB[i], u_scale).rgb,
-                            TileTexture(u_texturesB[j], u_scale).rgb,
-                            textureFade);
-                    }
-                    else if (u_map_position.z < u_zoom_fade[1]) {
-                        const int i = 1, j = 2;
-
-                        textureFade = 1. - clamp(u_zoom_fade[i] - u_map_position.z, 0., u_zoom_fade_range) / u_zoom_fade_range;
-
-                        textureASample = mix(
-                            TileTexture(u_texturesA[i], u_scale).rgb,
-                            TileTexture(u_texturesA[j], u_scale).rgb,
-                            textureFade);
-
-                        textureBSample = mix(
-                            TileTexture(u_texturesB[i], u_scale).rgb,
-                            TileTexture(u_texturesB[j], u_scale).rgb,
-                            textureFade);
-                    }
-                    else {
-                        const int i = 2;
-
-                        textureASample = TileTexture(u_texturesA[i], u_scale).rgb;
-                        textureBSample = TileTexture(u_texturesB[i], u_scale).rgb;
-                    }
-
-                    color.rgb = mix(
-                        textureASample,
-                        textureBSample,
-                        smoothstep(edge - feather, edge + feather, maskBlend)
-                    );
-
-    textured-lines:
-        base: lines
-        lighting: false
-        material:
-            diffuse:
-                texture: line-texture
-                mapping: uv
-        shaders:
-            uniforms:
-                u_tex: line-texture
-            blocks:
-                color: |
-                    // have to do a fract on the texcoord to get it to repeat over the length of the line
-                    color = texture2D(u_tex, fract(vec2(v_texcoord.x, v_texcoord.y))); // straight texture
-                    // color *= texture2D(u_tex, fract(vec2(v_texcoord.x, v_texcoord.y))); // tinted
-                    //color *= 1. - texture2D(u_tex, fract(vec2(v_texcoord.x, v_texcoord.y))); // inverted & tinted
-                    //color.a = texture2D(u_tex, fract(vec2(v_texcoord.x, v_texcoord.y))).a; // use texture's alpha
-
-    texture:
-        base: polygons
-        shaders:
-            uniforms:
-                u_customtexture: images/uv-coords.png
-                u_scale: 1. # number of times to repeat texture in a tile
-            blocks:
-                position: |
-                    // make tile worldspace coordinates available to the global block
-                    v_pos = modelPosition();
-                global: |
-                    varying vec4 v_pos;
-                    vec4 TileTexture(sampler2D tex, float scale) {
-                        // CONTROLS
-                        // how smooth should the transition be?
-                        // 0 = snapping, 1 = continuous smoothstep crossfade
-                        float smoothness = .75;
-                        vec2 IN = v_pos.xy * scale * exp2(floor(u_map_position.z)-u_tile_origin.z);
-                        vec2 OUT = v_pos.xy * scale * exp2(floor(u_map_position.z)-u_tile_origin.z + 1.);
-                        vec4 intex = texture2D(tex,fract(IN));
-                        vec4 outtex = texture2D(tex,fract(OUT));
-                        float texf;
-                        //// linear transition
-                        // texf = fract(u_map_position.z);
-                        //// use smoothstep instead
-                        float tx = (1. - smoothness) * .5;
-                        texf = smoothstep(tx, 1.-tx, fract(u_map_position.z));
-                        return mix(intex, outtex, texf);
-                    }
-                color: |
-                    color.rgb = TileTexture(u_customtexture,u_scale).rgb;
-
-    texture-zooms:
+    # MULTI ZOOM TRANSITION WITH WITH 2 IMAGES/TEXTURES
+    texture-2-multi-zooms:
         base: polygons
         shaders:
             uniforms:
                 # two textures to cross-fade between
                 u_textures:
                     - images/water.jpg
-                    # - https://raw.githubusercontent.com/sensescape/bw-texture/master/images/water-brush4.jpg
                     - images/dots2.jpg
                 u_zoom_fade: [12.5, 13] # zooms to start/stop cross-fade
                 u_scale: 1. # number of times to repeat texture in a tile
@@ -1622,95 +1130,62 @@ styles:
                         TileTexture(u_textures[1],u_scale).rgb,
                         dz);
 
-    texture-zooms2:
-        mix: texture-zooms
-        shaders:
-            uniforms:
-                u_textures:
-                    - images/park4.jpg
-                    - images/forest1.jpg
-                u_zoom_fade: [12.25, 13.25]
-                u_scale: 1.
-
-    terrain-dots:
-        base: polygons
-        mix: [elevation-ramp, terrain-pattern]
-
-    terrain-pattern:
-        base: polygons
-        mix: [elevation-normal, functions-zoom, polygons-dots]
+    water-boundaries-animated:
+        base: lines
+        mix: [lines-coast]
         shaders:
             defines:
-                ZOOM_START: 0.
-                ZOOM_END: 13.
-                DOTS_DIR: vec3(-0.500,0.500,-0.500)
-                # DOTS_DIR: vec3(0.600,-0.950,0.520)
-                DOTS_COLOR: vec3(0.)
-                DOTS_BACKGROUND_COLOR: vec3(1.)
-                DOTS_SCALE: 25.
-                DOTS_SIZE: mix(shade*3.,shade*1.,zoom())
-                # DOTS_SCALE: 35.
-                # DOTS_SIZE: mix(shade*10.,shade*2.,zoom())
-            blocks:
-                # normal: |
-                #     float shade = dot((sampleRaster(int(NORMAL_TEXTURE_INDEX)).rgb-.5)*2., DOTS_DIR);
-                #     shade = shade*shade*shade;
-                normal: |
-                    float shade = dot(normal, DOTS_DIR);
-                    // modify brightness and contrast
-                    shade = shade*shade*shade * -2. + .25;
-                    // reset normal to prevent standard terrain shading mixing with dots
-                    normal = vec3(0,0,1);
+                COAST_WAVES_ANIMATED: true
 
-    elevation-normal:
-        raster: custom
+    lines-coast:
+        base: lines
+        animated: false
+        texcoords: true
+        blend: add
         shaders:
             defines:
-                NORMAL_TEXTURE_INDEX: 0
+                COAST_WAVES_AMOUNT: 5.
+                COAST_WAVES_SPEED: 0.1
+                COAST_WAVES_ANIMATED: true
             blocks:
-                normal: |
-                    vec4 normal_elv_raster = sampleRaster(int(NORMAL_TEXTURE_INDEX));
-                    normal = (normal_elv_raster.rgb-.5)*2.;
+                color: |
+                    float pct = 0.0;
+                    // glow
+                    pct = smoothstep(0.,2.,1.-v_texcoord.x);
+                    // waves
+                    #ifdef COAST_WAVES_ANIMATED
+                    pct += (1.-fract(v_texcoord.x*COAST_WAVES_AMOUNT+(fract(u_time*COAST_WAVES_SPEED))))*pct;
+                    #else
+                    pct += (1.-fract(v_texcoord.x*COAST_WAVES_AMOUNT))*pct;
+                    #endif
 
-    elevation-ramp:
+                    color *= pct;
+
+    coastline-glow:
+        base: lines
+        mix: [lines-glow]
+        shaders:
+            defines:
+                GLOW_WIDTH: .5
+                GLOW_BRIGHTNESS: .5
+
+    textured-lines:
+        base: lines
+        lighting: false
+        material:
+            diffuse:
+                texture: line-texture
+                mapping: uv
         shaders:
             uniforms:
-                u_ramp: palette
+                u_tex: line-texture
             blocks:
                 color: |
-                    color = texture2D(u_ramp, vec2((1.-normal_elv_raster.a),.5));
-        raster: custom
-
-    polygons-dots:
-        base: polygons
-        mix:
-            - space-tile
-            - tiling-brick
-            - shapes-circle
-        shaders:
-            blocks:
-                global: |
-                    float TileDots(float scale, float size) {
-
-                        // controls
-                        float DOT_SIZE = size * .1; // bigger value = smaller dots
-                        float SPEED = 2.; // bigger value = faster transition
-
-                        vec2 tc = getTileCoords() * size * pow(2., floor(u_map_position.z) - abs(u_tile_origin.z));
-                        vec2 IN = brick(tc, 2.);
-                        float A = circleDF(vec2(.5) - IN) * DOT_SIZE;
-                        vec2 OUT = brick(tc, 4.);
-                        float B = circleDF(vec2(.5) - OUT) * DOT_SIZE;
-
-                        // keep B dots big as they fade in, to maintain density
-                        B *= pow(fract(u_map_position.z)*.95, SPEED);
-
-                        float d = mix(A, B, pow(fract(u_map_position.z), SPEED));
-                        return aastep(scale, d);
-                    }
-
-                color: |
-                    color.rgb = mix(DOTS_COLOR, DOTS_BACKGROUND_COLOR, TileDots(DOTS_SIZE, DOTS_SCALE));
+                    // have to do a fract on the texcoord to get it to repeat over the length of the line
+                    color = texture2D(u_tex, fract(vec2(v_texcoord.x, v_texcoord.y))); // straight texture
+                    // color *= texture2D(u_tex, fract(vec2(v_texcoord.x, v_texcoord.y))); // tinted
+                    //color *= 1. - texture2D(u_tex, fract(vec2(v_texcoord.x, v_texcoord.y))); // inverted & tinted
+                    //color.a = texture2D(u_tex, fract(vec2(v_texcoord.x, v_texcoord.y))).a; // use texture's alpha
 
     runway-glow:
         base: lines
@@ -1760,225 +1235,7 @@ styles:
                 GLOW_WIDTH: mix(1.,.45,zoom())
                 GLOW_BRIGHTNESS: zoom()*.22
 
-    dash-terrain-landuse:
-        base: polygons
-        mix: [functions-zoom, elevation-dash]
-        shaders:
-            defines:
-                ZOOM_START: 14.
-                ZOOM_END: 18.
-                ZOOM_IN: .0
-                ZOOM_OUT: 1.
-
-                DASH_COLOR: vec3(1.000,1.000,1.000)
-                DASH_BACKGROUND_COLOR: vec3(0.000,0.000,0.000)
-                DASH_SCALE: 21.
-                DASH_TYPE: fill
-                DASH_TILE_STYLE: brick
-                DASH_DIR: vec3(-0.600,-0.420,0.560)
-                NORMAL_TEXTURE_INDEX: 0
-                DASH_MIN_SIZE: .02
-                DASH_MAX_SIZE: 1.
-                DASH_SIZE: shade
-
-    elevation-dash:
-        doc:
-            author:
-                name: Patricio Gonzalez Vivo
-                twitter: patriciogv
-            version: 0.0.1
-            tangram-version: 0.0.7
-            licence: MIT
-            description: |
-                Perfect for the `landuse` layer on your elevation maps, the `elevation-dash` modules use the color of the layer to draw a dash pattern that changes width based on the surface of the terrain.
-        base: polygons
-        mix: [ polygons-diagonal-dash, terrain]
-        # lighting: false
-        # raster: normal
-        raster: custom
-        shaders:
-            defines:
-                DASH_COLOR: color.rgb*.5
-                DASH_BACKGROUND_COLOR: color.rgb
-                DASH_SCALE: 10.
-                DASH_TYPE: fill
-                DASH_TILE_STYLE: brick
-                DASH_DIR: vec3(-0.600,-0.420,0.560)
-                NORMAL_TEXTURE_INDEX: 0
-                DASH_MIN_SIZE: .7
-                DASH_MAX_SIZE: 1.
-                DASH_SIZE: shade
-            blocks:
-                normal: |
-                    float shade = dot((sampleRaster(int(NORMAL_TEXTURE_INDEX)).rgb-.5)*2., DASH_DIR);
-                    shade = mix(DASH_MIN_SIZE, DASH_MAX_SIZE, (shade*shade*shade)*5.);
-
-    polygons-diagonal-dash:
-        doc:
-            author:
-                name: Patricio Gonzalez Vivo
-                twitter: patriciogv
-            version: 0.0.1
-            tangram-version: 0.0.7
-            licence: MIT
-            description: |
-                Apply a diagonal dash pattern to the polygon style. To learn more about patterns check [this chapter from the Book of Shaders](https://thebookofshaders.com/09/)
-        ui:
-            shaders:
-                defines:
-                    DASH_SCALE:
-                        type: number
-                        label: Scale
-                        range:
-                            min: 1.
-                            max: 1000.
-                            step: 1.
-                    DASH_SIZE:
-                        type: number
-                        label: Alpha
-                        range:
-                            min: 0.
-                            max: 1.
-                            step: 0.01
-                    STRIPES_ALPHA:
-                        type: number
-                        label: Alpha
-                        range:
-                            min: 0.
-                            max: 1.
-                            step: 0.01
-                    DASH_COLOR:
-                        type: color
-                        label: Color
-                    DASH_BACKGROUND_COLOR:
-                        type: color
-                        label: 'Background color'
-                    DASH_TYPE:
-                        type: dropdownArray
-                        label: Type
-                        values: ['fill', 'stroke']
-                    DASH_TILE_STYLE:
-                        type: dropdownArray
-                        label: 'Tile type'
-                        values: ['tile', 'brick']
-        base: polygons
-        mix: [block, space-tile, tiling-brick, tiling-tile, shapes-type]
-        shaders:
-            defines:
-                DASH_COLOR: color.rgb*.5
-                DASH_BACKGROUND_COLOR: color.rgb
-                DASH_SCALE: 10.
-                DASH_SIZE: 0.9
-                DASH_TYPE: fill
-                DASH_TILE_STYLE: tile
-            blocks:
-                global: |
-                    float dashDF(vec2 st) {
-                        return min(cos((st.x-st.y)*PI),-cos((st.x+st.y+.5)*PI*.6666)*5.);
-                    }
-                color: |
-                    color.rgb = mix(DASH_BACKGROUND_COLOR,
-                                    DASH_COLOR,
-                                    DASH_TYPE( DASH_SIZE, dashDF(DASH_TILE_STYLE(getTileCoords()*DASH_SCALE,3.))) );
-
-    glow-dots:
-        mix: [polygons-dots2]
-        shaders:
-            defines:
-                DOTS_COLOR: vec3(0.000,0.000,0.000)
-                DOTS_GLOW_COLOR: vec3(1.000,1.000,1.000)
-                DOTS_GLOW_SIZE: 2.
-                DOTS_GLOW_AMOUNT: 0.25
-                DOTS_SCALE: 16.
-                DOTS_SIZE: 0.21
-                DOTS_BACKGROUND_COLOR: color.rgb
-                DOTS_TYPE: fill
-                DOTS_TILE_STYLE: brick
-            blocks:
-                color: |
-                    float sdf = circleDF(vec2(0.5)-DOTS_TILE_STYLE(getTileCoords()*DOTS_SCALE,2.));
-
-                    color.rgb = mix(DOTS_BACKGROUND_COLOR,
-                                    DOTS_COLOR,
-                                    DOTS_TYPE( DOTS_SIZE, sdf));
-                    color.rgb += (DOTS_GLOW_COLOR*(1.-sdf*2.))*DOTS_GLOW_AMOUNT;
-
-    polygons-dots2:
-        doc:
-            author: 
-                name: Patricio Gonzalez Vivo
-                twitter: patriciogv
-            version: 0.0.1
-            tangram-version: 0.0.7
-            licence: MIT
-            description: |  
-                Apply dot patterns to a polygon. To learn more about patterns check [this chapter from the Book of Shaders](https://thebookofshaders.com/09/)
-        ui:
-            shaders:
-                defines:
-                    DOTS_SCALE:
-                        type: number
-                        label: Scale
-                        range: 
-                            min: 1.
-                            max: 1000.
-                            step: 1.
-                    DOTS_SIZE:
-                        type: number
-                        label: Size
-                        range: 
-                            min: 0.
-                            max: 1.
-                            step: 0.01
-                    STROKE:
-                        type: number
-                        label: Stroke
-                        default_value: 0.15
-                        range: 
-                            min: 0.
-                            max: 1.
-                            step: 0.01
-                    DOTS_TYPE: 
-                        type: dropdownArray
-                        label: Type
-                        values: ['fill', 'stroke']
-                    DOTS_TILE_STYLE: 
-                        type: dropdownArray
-                        label: 'Tile type'
-                        values: ['tile', 'brick']
-                    DOTS_COLOR: 
-                        type: color
-                        label: Color
-                    DOTS_BACKGROUND_COLOR: 
-                        type: color
-                        label: 'Background color'
-
-        base: polygons
-        mix: [space-tile2, tiling-brick2, tiling-tile2, shapes-circle2]
-        shaders:
-            defines:
-                DOTS_COLOR: color.rgb*.5
-                DOTS_BACKGROUND_COLOR: color.rgb
-                DOTS_SCALE: 10.
-                DOTS_SIZE: 0.41
-                DOTS_TYPE: fill
-                DOTS_TILE_STYLE: brick
-            blocks:
-                color: |
-                    color.rgb = mix(DOTS_BACKGROUND_COLOR, 
-                                    DOTS_COLOR, 
-                                    DOTS_TYPE( DOTS_SIZE, circleDF(vec2(0.5)-DOTS_TILE_STYLE(getTileCoords()*DOTS_SCALE,2.))) );
-
     lines-glow:
-        doc:
-            author: 
-                name: Patricio Gonzalez Vivo
-                twitter: patriciogv
-            version: 0.0.1
-            tangram-version: 0.0.7
-            licence: MIT
-            description: |  
-                Add an exciting glow effect to your
         ui:
             shaders:
                 defines:
@@ -2012,15 +1269,6 @@ styles:
 
     lines-dots-glow:
         base: lines
-        doc:
-            author: 
-                name: Patricio Gonzalez Vivo
-                twitter: patriciogv
-            version: 0.0.1
-            tangram-version: 0.0.7
-            licence: MIT
-            description: |
-                Apply a dot pattern to a line with some glow
         ui:
             shaders:
                 defines:
@@ -2061,15 +1309,6 @@ styles:
                     color.a += smoothstep(1.,0.,df)*(DOTS_GLOW);
 
     space-tile:
-        doc:
-            author:
-                name: Patricio Gonzalez Vivo
-                twitter: patriciogv
-            version: 0.0.1
-            tangram-version: 0.0.7
-            licence: MIT
-            description: |
-                Get the position on the tile
         test:
             tile:
                 defines:
@@ -2097,171 +1336,7 @@ styles:
                     // Normalize the attribute position of a vertex
                     v_pos = modelPosition().xyz;
 
-    space-tile2:
-        doc:
-            author: 
-                name: Patricio Gonzalez Vivo
-                twitter: patriciogv
-            version: 0.0.1
-            tangram-version: 0.0.7
-            licence: MIT
-            description: |
-                Get the position on the tile
-        shaders:
-            blocks:
-                global: |
-                    // Variant to be add to both vertex and fragments shaders
-                    varying vec3 v_pos;
-                    //
-                    // Get the coordinates in tile space
-                    // ================================
-                    vec2 getTileCoords() {
-                        return fract(v_pos.xy);
-                    }
-
-                position: |
-                    // Normalize the attribute position of a vertex
-                    v_pos = modelPosition().xyz;
-
-    tiling-brick:
-        doc:
-            author:
-                name: Patricio Gonzalez Vivo
-                twitter: patriciogv
-            version: 0.0.1
-            tangram-version: 0.0.7
-            licence: MIT
-            description: |
-                Repeats a coordinate space (`vec2 st`) in diferent brick-like tiles N times (`float zoom`). For more information about tilling patterns read [this chapter of The Book of Shaders](https://thebookofshaders.com/09/)
-            examples:
-                nursery:
-                    url: https://tangrams.github.io/tangram-sandbox/styles/nursery.yaml
-                    img: https://tangrams.github.io/tangram-sandbox/styles/nursery.png
-                    lines: 99
-                patterns:
-                    url: https://tangrams.github.io/tangram-sandbox/styles/patterns.yaml
-                    img: https://tangrams.github.io/tangram-sandbox/styles/patterns.png
-                    lines: 130
-        test:
-            brick: { blocks: { color: "    color.rg += brick(v_texcoord.xy,5.);" } }
-        shaders:
-            blocks:
-                global: |
-                    vec2 brick (vec2 st, float zoom) {
-                        st *= zoom;
-                        // Here is where the offset is happening
-                        st.x += step(1., mod(st.y,2.0)) * 0.5;
-                        return fract(st);
-                    }
-
-    tiling-brick2:
-        doc:
-            author: 
-                name: Patricio Gonzalez Vivo
-                twitter: patriciogv
-            version: 0.0.1
-            tangram-version: 0.0.7
-            licence: MIT
-            description: |
-                Repeats a coordinate space (`vec2 st`) in diferent brick-like tiles N times (`float zoom`). For more information about tilling patterns read [this chapter of The Book of Shaders](https://thebookofshaders.com/09/)
-            examples:
-                nursery:
-                    url: https://tangrams.github.io/tangram-sandbox/styles/nursery.yaml
-                    img: https://tangrams.github.io/tangram-sandbox/styles/nursery.png
-                    lines: 99 
-                patterns:
-                    url: https://tangrams.github.io/tangram-sandbox/styles/patterns.yaml
-                    img: https://tangrams.github.io/tangram-sandbox/styles/patterns.png
-                    lines: 130
-        shaders:
-            blocks:
-                global: |
-                    vec2 brick (vec2 st, float zoom) {
-                        st *= zoom;
-                        // Here is where the offset is happening
-                        st.x += step(1., mod(st.y,2.0)) * 0.5;
-                        return fract(st);
-                    }
-
-    tiling-tile:
-        doc:
-            author:
-                name: Patricio Gonzalez Vivo
-                twitter: patriciogv
-            version: 0.0.1
-            tangram-version: 0.0.7
-            licence: MIT
-            description: |
-                Repeats a coordinate space (`vec2 st`) in diferent brick-like tiles N times (`float zoom`). For more information about tilling patterns read [this chapter of The Book of Shaders](https://thebookofshaders.com/09/)
-        test:
-            tile: { blocks: { color: "    color.rg += tile(v_texcoord.xy,5.);" } }
-        shaders:
-            blocks:
-                global: |
-                    // Repeats a coordinate space (st) in diferent tiles
-                    // ================================
-                    vec2 tile (vec2 st, float zoom) {
-                        st *= zoom;
-                        return fract(st);
-                    }
-
-    tiling-tile2:
-        doc:
-            author: 
-                name: Patricio Gonzalez Vivo
-                twitter: patriciogv
-            version: 0.0.1
-            tangram-version: 0.0.7
-            licence: MIT
-            description: |
-                Repeats a coordinate space (`vec2 st`) in diferent brick-like tiles N times (`float zoom`). For more information about tilling patterns read [this chapter of The Book of Shaders](https://thebookofshaders.com/09/)
-        shaders:
-            blocks:
-                global: |
-                    // Repeats a coordinate space (st) in diferent tiles
-                    // ================================
-                    vec2 tile (vec2 st, float zoom) {
-                        st *= zoom;
-                        return fract(st);
-                    }
-
-    shapes-type:
-        doc:
-            author:
-                name: Patricio Gonzalez Vivo
-                twitter: patriciogv
-            version: 0.0.1
-            tangram-version: 0.0.7
-            licence: MIT
-            description: |
-                This block provides to functions `fill` and `stroke`. Each one transform a SDF to a fill shape or a stroke shape (border). The stroke width can be control with the define `STROKE`.
-                To learn more about how to make shapes on shaders go to From check [this chapter about shapes from the Book of Shaders](https://thebookofshaders.com/07/)
-        mix: [functions-aastep]
-        shaders:
-            defines:
-                STROKE: 0.15
-            blocks:
-                global: |
-                    float fill (in float size, in float x) {
-                        return 1.-aastep(size, x);
-                    }
-
-                    float stroke (in float size, in float x) {
-                        return aastep(size, x+STROKE*.5) - aastep(size, x-STROKE*.5);
-                    }
-
     functions-zoom:
-        doc:
-            author:
-                name: Patricio Gonzalez Vivo
-                twitter: patriciogv
-            version: 0.0.1
-            tangram-version: 0.0.7
-            licence: MIT
-            description: |
-                when you mix this block to another block you can use the functions `zoom()` or `zoomEase()`. Both will help you to interpolate any values between the zooms `ZOOM_START` and `ZOOM_END`.
-                By default `zoom()` and `zoomEase()` will return a `float `number between 0 and 1. But you can change it to interpolate any thing! Like `floats`, `vec2`, `vec3`, `vec4` and even other functions! For that you just need to change de `defines`: `ZOOM_IN`, and `ZOOM_OUT` to what ever you want to interpolate.
-                `zoom()` use the cuadratic interpolation of `smoothstep()` but you can use `zoomEase()` to specify what type of **easing interpolation** you prefere. Just change the default `linear` function for any [easing functions describe here](#functions-easing) in the `ZOOM_FNC` define. Ex: `ZOOM_FNC: quadraticInOut`
         mix: [functions-easing]
         shaders:
             defines:
@@ -2285,16 +1360,8 @@ styles:
                                     ZOOM_OUT,
                                     ZOOM_FNC( (u_map_position.z-ZOOM_START)/(ZOOM_END-ZOOM_START) ) );
                     }
+
     functions-easing:
-        doc:
-            author:
-                name: StackGL
-                url: http://stack.gl/
-            version: 0.0.1
-            tangram-version: 0.0.7
-            licence: MIT
-            description: |
-                Easing functions originally develop by Robert Penner's and transformed to GLSL by [StackGL](http://stack.gl/) in this repo: <https://github.com/stackgl/glsl-easings>
         shaders:
             defines:
                 PI: 3.1415926535897932384626433832795
@@ -2434,15 +1501,6 @@ styles:
                     }
 
     functions-aastep:
-        doc:
-            author:
-                name: Matt DesLauriers
-                twitter: mattdesl
-            version: 0.0.1
-            tangram-version: 0.0.7
-            licence: MIT
-            description: |
-                AnitAliased ```step()``` function implemented by [Matt DesLauriers](https://twitter.com/mattdesl) in this module <https://github.com/stackgl/glsl-aastep>
         shaders:
             extensions: OES_standard_derivatives
             blocks:
@@ -2479,52 +1537,6 @@ styles:
                     // ================================
                     float circle (vec2 st, float radius) {
                         return 1.-aastep(radius, circleDF(st-vec2(0.5))*PI);
-                    }
-
-    shapes-circle2:
-        doc:
-            author: 
-                name: Patricio Gonzalez Vivo
-                twitter: patriciogv
-            version: 0.0.1
-            tangram-version: 0.0.7
-            licence: MIT
-            description: |  
-                Collection of functions to draw circles. To learn more about how to make shapes on shaders go to From check [this chapter about shapes from the Book of Shaders](https://thebookofshaders.com/07/)
-            examples:
-                lego:
-                    url: https://tangrams.github.io/tangram-sandbox/styles/lego.yaml
-                    img: https://tangrams.github.io/tangram-sandbox/styles/lego.png
-                    lines: 109-110
-                patterns:
-                    url: https://tangrams.github.io/tangram-sandbox/styles/patterns.yaml
-                    img: https://tangrams.github.io/tangram-sandbox/styles/patterns.png
-                    lines: 146
-                nursery:
-                    url: https://tangrams.github.io/tangram-sandbox/styles/nursery.yaml
-                    img: https://tangrams.github.io/tangram-sandbox/styles/nursery.png
-                    lines: 146
-        mix: [shapes-type]
-        shaders:
-            blocks:
-                global: |
-                    // get distance field of a Circle
-                    // ================================
-                    float circleDF (vec2 st) {
-                        return dot(st,st)*3.03;
-                    }
-                    //
-                    // Draw a circle in the middle of the ST space
-                    // ================================
-                    float circle (vec2 st, float radius) {
-                        return fill(radius, circleDF(st-vec2(0.5)));
-                    }
-
-                    //
-                    // Draw a circle in the middle of the ST space
-                    // ================================
-                    float circleBorder (vec2 st, float radius) {
-                        return stroke(radius, circleDF(st-vec2(0.5)));
                     }
 
     block:
