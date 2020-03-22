@@ -123,7 +123,7 @@ layers:
         data: { source: mapzen, layer: earth }
         draw:
             polygons:
-                style: texture-2-multi-zooms
+                # style: texture-2-multi-zooms
                 order: global.feature_order
                 color: [1.000,1.000,1.000]
 
@@ -131,7 +131,7 @@ layers:
         data: { source: mapzen, layer: water }
         draw:
             polygons:
-                style: water-dots
+                style: texture-2-multi-zooms
                 # style: texture-terrain-conservation
                 order: global.feature_order
                 color: [0.000,0.000,0.000]
@@ -779,7 +779,7 @@ layers:
 
     landuse:
         data: { source: mapzen }
-        enabled: false
+        enabled: true
         draw:
             polygons:
                 order: global.feature_order
@@ -794,7 +794,7 @@ layers:
                     - protect_class: ['2','3','5']
             draw:
                 polygons:
-                    style: texture-terrain-park
+                    style: green-areas2
                     color: [1.000,1.000,1.000]
                     visible: true
             us_national_park:
@@ -805,7 +805,7 @@ layers:
                         - protect_class: ['2','3','5']
                 draw:
                     polygons:
-                        style: texture-terrain-park
+                        style: green-areas2
                         color: [0.300,0.300,0.300]
                         visible: true
 
@@ -856,14 +856,14 @@ layers:
             # default for national forests and more?
             draw:
                 polygons:
-                    style: texture-terrain-park
+                    style: green-areas
                     color: [0.300,0.300,0.300]
                     visible: true
             national_park:
                 #filter: function() { return feature.name && (feature.name.indexOf('National Park') > -1); }
                 filter:
                     all:
-                        - kind: texture-terrain-park
+                        - kind: green-areas
                         - not: [ protect_class: ['2','3','5','6'], operator: [ "United States National Park Service"] ]
                 draw:
                     polygons:
@@ -903,7 +903,7 @@ layers:
 
     buildings:
         data: { source: mapzen, layer: buildings }
-        enabled: false
+        enabled: true
         filter:
             not: { location: underground }
         draw:
@@ -975,6 +975,22 @@ styles:
         base: polygons
         blend: overlay
 
+    green-areas:
+        base: polygons
+        mix: texture
+        shaders:
+            uniforms:
+                u_customtexture: images/green2.jpg
+                u_scale: 0.9
+
+    green-areas2:
+        base: polygons
+        mix: texture
+        shaders:
+            uniforms:
+                u_customtexture: images/green4.jpg
+                u_scale: 0.75
+
     water-dots:
         base: polygons
         mix: texture
@@ -988,7 +1004,7 @@ styles:
         mix: texture
         shaders:
             uniforms:
-                u_customtexture: images/building-dots4.jpg
+                u_customtexture: images/building-dots5.jpg
                 u_scale: 0.85
 
     texture:
@@ -1095,10 +1111,10 @@ styles:
             uniforms:
                 # two textures to cross-fade between
                 u_textures:
-                    - images/water.jpg
-                    - images/dots2.jpg
-                u_zoom_fade: [12.5, 13] # zooms to start/stop cross-fade
-                u_scale: 1. # number of times to repeat texture in a tile
+                    - images/water5.jpg
+                    - images/water7.jpg
+                u_zoom_fade: [10, 11] # zooms to start/stop cross-fade
+                u_scale: 0.5 # number of times to repeat texture in a tile
             blocks:
                 position: |
                     // make tile worldspace coordinates available to the global block
@@ -1109,7 +1125,7 @@ styles:
                         // CONTROLS
                         // how smooth should the transition be?
                         // 0 = snapping, 1 = continuous smoothstep crossfade
-                        float smoothness = .75;
+                        float smoothness = .25;
                         vec2 IN = v_pos.xy * scale * exp2(floor(u_map_position.z)-u_tile_origin.z);
                         vec2 OUT = v_pos.xy * scale * exp2(floor(u_map_position.z)-u_tile_origin.z + 1.);
                         vec4 intex = texture2D(tex,fract(IN));
