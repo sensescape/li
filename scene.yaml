@@ -1183,7 +1183,7 @@ styles:
                 NUM_TEXTURE_STOPS: 2
             uniforms:
                 # zooms to start/stop cross-fade
-                u_zoom_stops: [8, 13]
+                u_zoom_stops: [12, 17]
                 # four textures to cross-fade between
                 u_textures:
                     - images/green5.jpg
