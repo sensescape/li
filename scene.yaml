@@ -776,7 +776,7 @@ layers:
                 not: { protect_class: ['2','3','5']}
             draw:
                 polygons:
-                    style: green-areas2
+                    style: green-areas-2-multi-zooms2
                     color: [0.300,0.300,0.300]
                     visible: true
 
@@ -797,7 +797,7 @@ layers:
             filter: { kind: [forest, natural_forest, wood, natural_wood, natural_park], $zoom: { min: 10 }, not: { operator: "United States Forest Service" } }
             draw:
                 polygons:
-                    style: green-areas-3-multi-zooms
+                    style: green-areas3
                     color: [0.300,0.300,0.300]
                     visible: true
 
@@ -812,14 +812,14 @@ layers:
             # default for national forests and more?
             draw:
                 polygons:
-                    style: green-areas
+                    style: green-areas-3-multi-zooms2
                     color: [0.300,0.300,0.300]
                     visible: true
             national_park:
                 #filter: function() { return feature.name && (feature.name.indexOf('National Park') > -1); }
                 filter:
                     all:
-                        - kind: green-areas
+                        - kind: green-areas-3-multi-zooms2
                         - not: [ protect_class: ['2','3','5','6'], operator: [ "United States National Park Service"] ]
                 draw:
                     polygons:
@@ -944,7 +944,7 @@ styles:
         mix: texture
         shaders:
             uniforms:
-                u_customtexture: images/green4.jpg
+                u_customtexture: images/green8.jpg
                 u_scale: 0.75
 
     green-areas3:
@@ -952,7 +952,7 @@ styles:
         mix: texture
         shaders:
             uniforms:
-                u_customtexture: images/green5.jpg
+                u_customtexture: images/green4.jpg
                 u_scale: 0.75
 
     water-dots:
@@ -1139,9 +1139,11 @@ styles:
             uniforms:
                 # two textures to cross-fade between
                 u_textures:
-                    - images/water11.jpg
-                    - images/water10.jpg
-                u_zoom_fade: [13, 14] # zooms to start/stop cross-fade
+                    - images/water12.jpg
+                    - images/water9.jpg
+                    # - images/water11.jpg
+                    # - images/water10.jpg
+                u_zoom_fade: [11, 12] # zooms to start/stop cross-fade
                 u_scale: 0.5 # number of times to repeat texture in a tile
             blocks:
                 position: |
@@ -1183,7 +1185,7 @@ styles:
                 NUM_TEXTURE_STOPS: 2
             uniforms:
                 # zooms to start/stop cross-fade
-                u_zoom_stops: [12, 17]
+                u_zoom_stops: [13, 18]
                 # four textures to cross-fade between
                 u_textures:
                     - images/green5.jpg
@@ -1233,6 +1235,106 @@ styles:
                     }
                 color: |
                     color.rgb = blendTextureSet(u_map_position.z);
+
+    green-areas-3-multi-zooms2:
+        base: polygons
+        shaders:
+            defines:
+                # MUST match number of entries in u_zoom_stops below
+                NUM_TEXTURE_STOPS: 2
+            uniforms:
+                # zooms to start/stop cross-fade
+                u_zoom_stops: [13, 18]
+                # four textures to cross-fade between
+                u_textures:
+                    - images/green9.jpg
+                    - images/green11.jpg
+                    - images/green2.jpg
+                u_zoom_fade_range: 0.5 # how quickly the zoom cross-fade happens
+                u_scale: 0.65 # number of times to repeat texture in a tile
+            blocks:
+                position: |
+                    // make tile worldspace coordinates available to the global block
+                    v_pos = modelPosition();
+                global: |
+                    varying vec4 v_pos;
+                    vec4 TileTexture(sampler2D tex, float scale) {
+                        // CONTROLS
+                        // how smooth should the transition be?
+                        // 0 = snapping, 1 = continuous smoothstep crossfade
+                        float smoothness = .75;
+                        vec2 IN = v_pos.xy * scale * exp2(floor(u_map_position.z)-u_tile_origin.z);
+                        vec2 OUT = v_pos.xy * scale * exp2(floor(u_map_position.z)-u_tile_origin.z + 1.);
+                        vec4 intex = texture2D(tex,fract(IN));
+                        vec4 outtex = texture2D(tex,fract(OUT));
+                        float texf;
+                        //// linear transition
+                        // texf = fract(u_map_position.z);
+                        //// use smoothstep instead
+                        float tx = (1. - smoothness) * .5;
+                        texf = smoothstep(tx, 1.-tx, fract(u_map_position.z));
+                        return mix(intex, outtex, texf);
+                    }
+
+                    vec3 blendTextureSet(float z) {
+                        const int numTextureStops = int(NUM_TEXTURE_STOPS);
+                        vec3 iTex = TileTexture(u_textures[numTextureStops], u_scale).rgb;
+                        vec3 jTex = TileTexture(u_textures[numTextureStops], u_scale).rgb;
+                        float textureFade = 1.;
+
+                        for (int a=0; a < numTextureStops; a++) {
+                            if (z < u_zoom_stops[a]) {
+                                iTex = TileTexture(u_textures[a], u_scale).rgb;
+                                jTex = TileTexture(u_textures[a+1], u_scale).rgb;
+                                textureFade = 1. - clamp(u_zoom_stops[a] - z, 0., u_zoom_fade_range) / u_zoom_fade_range;
+                                break;
+                            }
+                        }
+                        return mix(iTex, jTex, textureFade);
+                    }
+                color: |
+                    color.rgb = blendTextureSet(u_map_position.z);
+
+    green-areas-2-multi-zooms2:
+        base: polygons
+        shaders:
+            uniforms:
+                # two textures to cross-fade between
+                u_textures:
+                    - images/green8.jpg
+                    - images/green10.jpg
+                u_zoom_fade: [11, 12] # zooms to start/stop cross-fade
+                u_scale: 0.75 # number of times to repeat texture in a tile
+            blocks:
+                position: |
+                    // make tile worldspace coordinates available to the global block
+                    v_pos = modelPosition();
+                global: |
+                    varying vec4 v_pos;
+                    vec4 TileTexture(sampler2D tex, float scale) {
+                        // CONTROLS
+                        // how smooth should the transition be?
+                        // 0 = snapping, 1 = continuous smoothstep crossfade
+                        float smoothness = .25;
+                        vec2 IN = v_pos.xy * scale * exp2(floor(u_map_position.z)-u_tile_origin.z);
+                        vec2 OUT = v_pos.xy * scale * exp2(floor(u_map_position.z)-u_tile_origin.z + 1.);
+                        vec4 intex = texture2D(tex,fract(IN));
+                        vec4 outtex = texture2D(tex,fract(OUT));
+                        float texf;
+                        //// linear transition
+                        // texf = fract(u_map_position.z);
+                        //// use smoothstep instead
+                        float tx = (1. - smoothness) * .5;
+                        texf = smoothstep(tx, 1.-tx, fract(u_map_position.z));
+                        return mix(intex, outtex, texf);
+                    }
+                color: |
+                    float dz = clamp((u_map_position.z - u_zoom_fade[0]) / (u_zoom_fade[1] - u_zoom_fade[0]), 0., 1.);
+                    // color.rgb = TileTexture(u_textures[0],u_scale).rgb;
+                    color.rgb = mix(
+                        TileTexture(u_textures[0],u_scale).rgb,
+                        TileTexture(u_textures[1],u_scale).rgb,
+                        dz);
 
     water-boundaries-animated:
         base: lines
