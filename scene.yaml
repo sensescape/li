@@ -131,7 +131,7 @@ layers:
         data: { source: mapzen, layer: water }
         draw:
             polygons:
-                style: texture-2-multi-zooms
+                style: water-texture
                 # style: texture-terrain-conservation
                 order: global.feature_order
                 color: [0.000,0.000,0.000]
@@ -757,8 +757,8 @@ layers:
                     - protect_class: ['2','3','5']
             draw:
                 polygons:
-                    style: green-areas-3-multi-zooms
-                    color: [1.000,1.000,1.000]
+                    style: national-parks-texture
+                    # color: [1.000,0.000,0.000]
                     visible: true
             us_national_park:
                 # yosemite national park, death valley national park, grand canyon national park
@@ -768,8 +768,8 @@ layers:
                         - protect_class: ['2','3','5']
                 draw:
                     polygons:
-                        style: green-areas-3-multi-zooms
-                        color: [0.300,0.300,0.300]
+                        style: national-parks-texture
+                        # color: [1.000,0.000,0.000]
                         visible: true
 
 
@@ -780,8 +780,8 @@ layers:
                 not: { protect_class: ['2','3','5']}
             draw:
                 polygons:
-                    style: green-areas-2-multi-zooms2
-                    color: [0.300,0.300,0.300]
+                    style: conservation-texture
+                    # color: [1.000,0.000,0.000]
                     visible: true
 
         national_forest_level_6:
@@ -793,16 +793,16 @@ layers:
                     - operator: ['United States Forest Service']
             draw:
                 polygons:
-                    style: green-areas-3-multi-zooms
-                    color: [0.000,0.000,0.000]
+                    style: national-forest-texture
+                    # color: [1.000,0.000,0.000]
                     visible: true
 
         forest-landcover:
             filter: { kind: [forest, natural_forest, wood, natural_wood, natural_park], $zoom: { min: 10 }, not: { operator: "United States Forest Service" } }
             draw:
                 polygons:
-                    style: green-areas-2-multi-zooms
-                    color: [0.300,0.300,0.300]
+                    style: forest-texture
+                    # color: [1.000,0.000,0.000]
                     visible: true
 
         parks-and-national-forests-not-national-park:
@@ -816,30 +816,27 @@ layers:
             # default for national forests and more?
             draw:
                 polygons:
-                    style: green-areas-3-multi-zooms2
-                    color: [0.300,0.300,0.300]
+                    style: parks-texture
+                    # color: [1.000,0.000,0.000]
                     visible: true
             national_park:
                 #filter: function() { return feature.name && (feature.name.indexOf('National Park') > -1); }
                 filter:
                     all:
-                        - kind: green-areas-3-multi-zooms2
+                        - kind: national_park
                         - not: [ protect_class: ['2','3','5','6'], operator: [ "United States National Park Service"] ]
                 draw:
                     polygons:
                         visible: true
 
-        # golf_course:
-        #     filter:
-        #         kind: golf_course
-        #     draw:
-        #         polygons:
-        #             # style: landuse-test
-        #             # style: terrain-dots
-        #             # style: texture-terrain-earth
-        #             style: texture-zooms-multi
-        #             color: [0.000,0.000,0.000]
-        #             visible: true
+        golf_course:
+            filter:
+                kind: golf_course
+            draw:
+                polygons:
+                    style: golf-course-texture
+                    color: [1.000,0.000,0.000]
+                    visible: true
 
         # hospital:
         #         filter:
@@ -935,28 +932,20 @@ styles:
         base: polygons
         blend: overlay
 
-    green-areas:
+    national-forest-texture:
         base: polygons
         mix: texture
         shaders:
             uniforms:
-                u_customtexture: images/green2.jpg
+                u_customtexture: images/green24.jpg
                 u_scale: 0.9
 
-    green-areas2:
+    golf-course-texture:
         base: polygons
         mix: texture
         shaders:
             uniforms:
-                u_customtexture: images/green8.jpg
-                u_scale: 0.75
-
-    green-areas3:
-        base: polygons
-        mix: texture
-        shaders:
-            uniforms:
-                u_customtexture: images/green4.jpg
+                u_customtexture: images/green20.jpg
                 u_scale: 0.75
 
     water-dots:
@@ -1137,7 +1126,7 @@ styles:
                     color.rgb = blendTextureSet(u_map_position.z);
 
     # MULTI ZOOM TRANSITION WITH WITH 2 IMAGES/TEXTURES
-    texture-2-multi-zooms:
+    water-texture:
         base: polygons
         shaders:
             uniforms:
@@ -1148,7 +1137,7 @@ styles:
                     # - images/water11.jpg
                     # - images/water10.jpg
                 u_zoom_fade: [11, 12] # zooms to start/stop cross-fade
-                u_scale: 0.5 # number of times to repeat texture in a tile
+                u_scale: 0.55 # number of times to repeat texture in a tile
             blocks:
                 position: |
                     // make tile worldspace coordinates available to the global block
@@ -1180,8 +1169,8 @@ styles:
                         TileTexture(u_textures[1],u_scale).rgb,
                         dz);
 
-    # MULTI ZOOM TRANSITION WITH WITH 2 IMAGES/TEXTURES
-    green-areas-3-multi-zooms:
+    # MULTI ZOOM TRANSITION WITH WITH 3 IMAGES/TEXTURES
+    national-parks-texture:
         base: polygons
         shaders:
             defines:
@@ -1196,7 +1185,7 @@ styles:
                     - images/green6.jpg
                     - images/green7.jpg
                 u_zoom_fade_range: 0.5 # how quickly the zoom cross-fade happens
-                u_scale: 0.65 # number of times to repeat texture in a tile
+                u_scale: 0.75 # number of times to repeat texture in a tile
             blocks:
                 position: |
                     // make tile worldspace coordinates available to the global block
@@ -1240,7 +1229,7 @@ styles:
                 color: |
                     color.rgb = blendTextureSet(u_map_position.z);
 
-    green-areas-3-multi-zooms2:
+    parks-texture:
         base: polygons
         shaders:
             defines:
@@ -1248,11 +1237,11 @@ styles:
                 NUM_TEXTURE_STOPS: 2
             uniforms:
                 # zooms to start/stop cross-fade
-                u_zoom_stops: [13, 18]
+                u_zoom_stops: [11, 18]
                 # four textures to cross-fade between
                 u_textures:
-                    - images/green9.jpg
-                    - images/green11.jpg
+                    - images/green26.jpg
+                    - images/green25.jpg
                     - images/green2.jpg
                 u_zoom_fade_range: 0.5 # how quickly the zoom cross-fade happens
                 u_scale: 0.65 # number of times to repeat texture in a tile
@@ -1299,14 +1288,14 @@ styles:
                 color: |
                     color.rgb = blendTextureSet(u_map_position.z);
 
-    green-areas-2-multi-zooms2:
+    conservation-texture:
         base: polygons
         shaders:
             uniforms:
                 # two textures to cross-fade between
                 u_textures:
-                    - images/green8.jpg
-                    - images/green10.jpg
+                    - images/green21.jpg
+                    - images/green19.jpg
                 u_zoom_fade: [11, 12] # zooms to start/stop cross-fade
                 u_scale: 0.75 # number of times to repeat texture in a tile
             blocks:
@@ -1340,13 +1329,13 @@ styles:
                         TileTexture(u_textures[1],u_scale).rgb,
                         dz);
 
-    green-areas-2-multi-zooms:
+    forest-texture:
         base: polygons
         shaders:
             uniforms:
                 # two textures to cross-fade between
                 u_textures:
-                    - images/green17.jpg
+                    - images/green28.jpg
                     - images/green4.jpg
                 u_zoom_fade: [14, 15] # zooms to start/stop cross-fade
                 u_scale: 0.75 # number of times to repeat texture in a tile
