@@ -169,13 +169,13 @@ layers:
         #         polygons:
         #             style: water-dots
 
-        # playas:
-        #     filter: { kind: playa, $zoom: { min: 4 } }
-        #     draw:
-        #         polygons:
-        #             style: earth-dots2
-        #             order: global.feature_order
-        #             color: [0.500,0.500,0.500]
+        playas:
+            filter: { kind: playa, $zoom: { min: 4 } }
+            draw:
+                polygons:
+                    style: playas-texture
+                    order: global.feature_order
+                    # color: [0.500,0.500,0.500]
 
         # boundaries:
         #     filter: { boundary: true, kind: ocean }
@@ -300,6 +300,7 @@ layers:
                 draw:
                     lines:
                         color: [0.000,0.000,0.000]
+                        # color: [1.000,0.000,0.000]
                         width: 1px
 
             highway-z11:
@@ -309,31 +310,31 @@ layers:
                     lines:
                         style: lines
                         order: global.order
-                        color: [1.000,1.000,1.000]
+                        color: [0.000,0.000,0.000]
                         # color: [1.000,0.000,0.000]
                         width: [[8,0px],[18,8px]]
                         outline:
-                            color: [0.000,0.000,0.000]
+                            color: [0.920,0.920,0.920]
                             # color: [1.000,0.000,0.000]
                             width: [[8,0.5px],[12,1.5px],[13,2px],[14,4px],[16,10px],[18,16px]]
                     highway-dashed:
                         style: highway-dashed
                         order: global.order_add_3
-                        color: [0.000,0.000,0.000]
+                        color: [1.000,1.000,1.000]
                         # color: [1.000,0.000,1.000]
                         width: [[8,0px],[11,0.5px],[14,1px],[16,1.5px],[20,2px]]
                         outline:
-                            color: [1.000,1.000,1.000]
+                            color: [0.000,0.000,0.000]
                             # color: [0.000,0.000,1.000]
                             width: [[8,0.5px],[12,0.5px],[17,4px]]
                     highway-glow:
                         style: lines
                         order: global.order_add_2
-                        color: [0.300,0.300,0.300]
+                        color: [1.000,1.000,1.000]
                         # color: [0.000,1.000,0.000]
                         width: [[11,0.5px],[13,2px],[15,9px],[16,14px],[18,18px]]
                         outline:
-                            color: [1.000,1.000,1.000]
+                            color: [0.000,0.000,0.000]
                             # color: [0.000,0.000,1.000]
                             width: [[8,0.5px],[13,0.5px],[17,3px]]
 
@@ -342,11 +343,11 @@ layers:
                     draw:
                         lines:
                             order: global.order_add_1
-                            color: [1.000,1.000,1.000]
+                            color: [0.000,0.000,0.000]
                             # color: [1.000,0.000,0.000]
                             width: [[8,0px],[16,0.5px],[18,8px]]
                             outline:
-                                color: [0.200,0.200,0.200]
+                                color: [1.000,1.000,1.000]
                                 # color: [1.000,0.000,0.000]
                                 width: [[8,0px],[13,0px],[18,2px]]
                         highway-dashed:
@@ -375,18 +376,19 @@ layers:
                             color: [0.000,0.000,0.000]
                             # color: [1.000,0.000,0.000]
                             outline:
-                                color: [0.800,0.800,0.800]
-                                # color: [1.000,1.000,1.000]
+                                color: [0.850,0.850,0.850]
+                                # color: [1.000,0.000,0.000]
                         highway-dashed:
                             style: highway-dashed-tunnel
                             visible: true
-                            color: [0.600,0.600,0.600]
+                            color: [0.000,0.000,0.000]
                             # color: [1.000,0.000,0.000]
                             outline:
-                                color: [0.900,0.900,0.900]
+                                color: [1.000,1.000,1.000]
+                                # color: [1.000,0.000,0.000]
                         highway-glow:
                             visible: true
-                            color: [0.500,0.500,0.500]
+                            color: [0.400,0.400,0.400]
                             # color: [1.000,0.000,0.000]
                     highway-tunnel-link:
                         filter:
@@ -835,7 +837,16 @@ layers:
             draw:
                 polygons:
                     style: golf-course-texture
-                    color: [1.000,0.000,0.000]
+                    # color: [1.000,0.000,0.000]
+                    visible: true
+
+        recreation_ground:
+            filter:
+                kind: recreation_ground
+            draw:
+                polygons:
+                    style: recreation-texture
+                    # color: [1.000,0.000,0.000]
                     visible: true
 
         # hospital:
@@ -945,7 +956,23 @@ styles:
         mix: texture
         shaders:
             uniforms:
+                u_customtexture: images/golf-lines2.jpg
+                u_scale: 0.9
+
+    recreation-texture:
+        base: polygons
+        mix: texture
+        shaders:
+            uniforms:
                 u_customtexture: images/green20.jpg
+                u_scale: 0.75
+
+    playas-texture:
+        base: polygons
+        mix: texture
+        shaders:
+            uniforms:
+                u_customtexture: images/water7.jpg
                 u_scale: 0.75
 
     texture:
@@ -1475,7 +1502,7 @@ styles:
     highway-dashed:
         base: lines
         dash: [8,10]
-        dash_background_color: [1.000,1.000,1.000]
+        dash_background_color: [0.000,0.000,0.000]
         shaders:
             blocks:
                 position: |
@@ -1484,7 +1511,7 @@ styles:
     highway-dashed-tunnel:
         base: lines
         dash: [8,10]
-        dash_background_color: [0.900,0.900,0.900]
+        dash_background_color: [1.000,1.000,1.000]
         shaders:
             blocks:
                 position: |
