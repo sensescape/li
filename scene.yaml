@@ -877,7 +877,8 @@ layers:
             draw:
                 polygons:
                     visible: true
-                    style: building-dots
+                    # style: building-dots
+                    style: building-texture
                 # lines:
                 #     visible: true
                 #     width: 1px
@@ -947,22 +948,6 @@ styles:
             uniforms:
                 u_customtexture: images/green20.jpg
                 u_scale: 0.75
-
-    water-dots:
-        base: polygons
-        mix: texture
-        shaders:
-            uniforms:
-                u_customtexture: images/water-dots2.jpg
-                u_scale: 0.6
-
-    building-dots:
-        base: polygons
-        mix: texture
-        shaders:
-            uniforms:
-                u_customtexture: images/building-dots7.jpg
-                u_scale: 0.85
 
     texture:
         base: polygons
@@ -1134,8 +1119,6 @@ styles:
                 u_textures:
                     - images/water12.jpg
                     - images/water9.jpg
-                    # - images/water11.jpg
-                    # - images/water10.jpg
                 u_zoom_fade: [11, 12] # zooms to start/stop cross-fade
                 u_scale: 0.55 # number of times to repeat texture in a tile
             blocks:
@@ -1328,6 +1311,48 @@ styles:
                         TileTexture(u_textures[0],u_scale).rgb,
                         TileTexture(u_textures[1],u_scale).rgb,
                         dz);
+
+    building-texture:
+        base: polygons
+        shaders:
+            uniforms:
+                # two textures to cross-fade between
+                u_textures:
+                    - images/building-dots3.jpg
+                    - images/building-dots5.jpg
+                u_zoom_fade: [16, 17] # zooms to start/stop cross-fade
+                u_scale: 0.85 # number of times to repeat texture in a tile
+            blocks:
+                position: |
+                    // make tile worldspace coordinates available to the global block
+                    v_pos = modelPosition();
+                global: |
+                    varying vec4 v_pos;
+                    vec4 TileTexture(sampler2D tex, float scale) {
+                        // CONTROLS
+                        // how smooth should the transition be?
+                        // 0 = snapping, 1 = continuous smoothstep crossfade
+                        float smoothness = .25;
+                        vec2 IN = v_pos.xy * scale * exp2(floor(u_map_position.z)-u_tile_origin.z);
+                        vec2 OUT = v_pos.xy * scale * exp2(floor(u_map_position.z)-u_tile_origin.z + 1.);
+                        vec4 intex = texture2D(tex,fract(IN));
+                        vec4 outtex = texture2D(tex,fract(OUT));
+                        float texf;
+                        //// linear transition
+                        // texf = fract(u_map_position.z);
+                        //// use smoothstep instead
+                        float tx = (1. - smoothness) * .5;
+                        texf = smoothstep(tx, 1.-tx, fract(u_map_position.z));
+                        return mix(intex, outtex, texf);
+                    }
+                color: |
+                    float dz = clamp((u_map_position.z - u_zoom_fade[0]) / (u_zoom_fade[1] - u_zoom_fade[0]), 0., 1.);
+                    // color.rgb = TileTexture(u_textures[0],u_scale).rgb;
+                    color.rgb = mix(
+                        TileTexture(u_textures[0],u_scale).rgb,
+                        TileTexture(u_textures[1],u_scale).rgb,
+                        dz);
+
 
     forest-texture:
         base: polygons
