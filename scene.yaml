@@ -877,7 +877,6 @@ layers:
             draw:
                 polygons:
                     visible: true
-                    # style: building-dots
                     style: building-texture
                 # lines:
                 #     visible: true
@@ -1321,7 +1320,7 @@ styles:
                     - images/building-dots3.jpg
                     - images/building-dots5.jpg
                 u_zoom_fade: [16, 17] # zooms to start/stop cross-fade
-                u_scale: 0.85 # number of times to repeat texture in a tile
+                u_scale: 0.75 # number of times to repeat texture in a tile
             blocks:
                 position: |
                     // make tile worldspace coordinates available to the global block
