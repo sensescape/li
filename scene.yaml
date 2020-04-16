@@ -124,15 +124,6 @@ scene:
         color: [1.000,1.000,1.000]
 
 sources:
-    # mapzen:
-    #     type: MVT
-    #     # url:  https://tile.nextzen.org/tilezen/vector/v1/512/all/{z}/{x}/{y}.mvt
-    #     url: https://xyz.api.here.com/tiles/osmbase/512/all/{z}/{x}/{y}.mvt
-    #     url_params:
-    #         api_key: JJiaZE63TZObzPrmx0TQkw
-    #     tile_size: 512
-    #     max_zoom: 16
-
     mapzen:
         type: MVT
         url: https://tile.nextzen.org/tilezen/vector/v1/512/all/{z}/{x}/{y}.mvt
@@ -276,6 +267,7 @@ layers:
 
     roads:
         data: { source: mapzen }
+        enabled: false
         filter: { not: { kind: rail } }
         draw:
             lines:
@@ -932,7 +924,7 @@ layers:
             draw:
                 polygons:
                     visible: true
-                    style: building-texture
+                    style: buildings-texture
 
 
             # extrude:
@@ -1149,6 +1141,14 @@ styles:
     polygons-transparent:
         base: polygons
         blend: overlay
+
+    buildings-texture:
+        base: polygons
+        mix: texture
+        shaders:
+            uniforms:
+                u_customtexture: images/buildings-lines1.jpg
+                u_scale: 0.75
 
     national-forest-texture:
         base: polygons
@@ -1464,8 +1464,8 @@ styles:
                 u_zoom_stops: [11, 18]
                 # four textures to cross-fade between
                 u_textures:
-                    - images/green26.jpg
                     - images/green25.jpg
+                    - images/green32.jpg
                     - images/green2.jpg
                 u_zoom_fade_range: 0.5 # how quickly the zoom cross-fade happens
                 u_scale: 0.65 # number of times to repeat texture in a tile
@@ -1553,58 +1553,16 @@ styles:
                         TileTexture(u_textures[1],u_scale).rgb,
                         dz);
 
-    building-texture:
-        base: polygons
-        shaders:
-            uniforms:
-                # two textures to cross-fade between
-                u_textures:
-                    - images/building-dots3.jpg
-                    - images/building-dots5.jpg
-                u_zoom_fade: [16, 17] # zooms to start/stop cross-fade
-                u_scale: 0.75 # number of times to repeat texture in a tile
-            blocks:
-                position: |
-                    // make tile worldspace coordinates available to the global block
-                    v_pos = modelPosition();
-                global: |
-                    varying vec4 v_pos;
-                    vec4 TileTexture(sampler2D tex, float scale) {
-                        // CONTROLS
-                        // how smooth should the transition be?
-                        // 0 = snapping, 1 = continuous smoothstep crossfade
-                        float smoothness = .25;
-                        vec2 IN = v_pos.xy * scale * exp2(floor(u_map_position.z)-u_tile_origin.z);
-                        vec2 OUT = v_pos.xy * scale * exp2(floor(u_map_position.z)-u_tile_origin.z + 1.);
-                        vec4 intex = texture2D(tex,fract(IN));
-                        vec4 outtex = texture2D(tex,fract(OUT));
-                        float texf;
-                        //// linear transition
-                        // texf = fract(u_map_position.z);
-                        //// use smoothstep instead
-                        float tx = (1. - smoothness) * .5;
-                        texf = smoothstep(tx, 1.-tx, fract(u_map_position.z));
-                        return mix(intex, outtex, texf);
-                    }
-                color: |
-                    float dz = clamp((u_map_position.z - u_zoom_fade[0]) / (u_zoom_fade[1] - u_zoom_fade[0]), 0., 1.);
-                    // color.rgb = TileTexture(u_textures[0],u_scale).rgb;
-                    color.rgb = mix(
-                        TileTexture(u_textures[0],u_scale).rgb,
-                        TileTexture(u_textures[1],u_scale).rgb,
-                        dz);
-
-
     forest-texture:
         base: polygons
         shaders:
             uniforms:
                 # two textures to cross-fade between
                 u_textures:
-                    - images/green28.jpg
+                    - images/green33.jpg
                     - images/green4.jpg
-                u_zoom_fade: [14, 15] # zooms to start/stop cross-fade
-                u_scale: 0.75 # number of times to repeat texture in a tile
+                u_zoom_fade: [16, 17] # zooms to start/stop cross-fade
+                u_scale: 0.65 # number of times to repeat texture in a tile
             blocks:
                 position: |
                     // make tile worldspace coordinates available to the global block
