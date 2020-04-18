@@ -155,12 +155,26 @@ layers:
 
     water:
         data: { source: mapzen, layer: water }
-        draw:
-            polygons:
-                style: water-texture
-                # style: texture-terrain-conservation
-                order: global.feature_order
-                color: [0.000,0.000,0.000]
+        # draw:
+        #     polygons:
+        #         style: water-texture
+        #         # style: texture-terrain-conservation
+        #         order: global.feature_order
+        #         color: [0.000,0.000,0.000]
+
+        lakes:
+            filter: { kind: [lake, water], $zoom: { min: 4 } }
+            draw:
+                polygons:
+                    order: global.feature_order
+                    style: lakes-texture
+
+        oceans:
+            filter: { kind: ocean }
+            draw:
+                polygons:
+                    order: global.feature_order
+                    style: water-texture
 
         # lakes:
         #     filter:
@@ -187,13 +201,13 @@ layers:
         #             - { $zoom: { min: 15 } }
         #     draw:
         #         polygons:
-        #             style: water-dots
+        #             color: blue
 
         # other_areas:
         #     filter: { not: { kind: [ocean, lake, water, reservoir] }, $zoom: { min: 10 }, area: { min: 100 } }
         #     draw:
         #         polygons:
-        #             style: water-dots
+        #             color: red
 
         playas:
             filter: { kind: playa, $zoom: { min: 4 } }
@@ -267,7 +281,7 @@ layers:
 
     roads:
         data: { source: mapzen }
-        enabled: false
+        enabled: true
         filter: { not: { kind: rail } }
         draw:
             lines:
@@ -1150,6 +1164,14 @@ styles:
                 u_customtexture: images/buildings-lines1.jpg
                 u_scale: 0.75
 
+    lakes-texture:
+        base: polygons
+        mix: texture
+        shaders:
+            uniforms:
+                u_customtexture: images/water17.jpg
+                u_scale: 0.5
+
     national-forest-texture:
         base: polygons
         mix: texture
@@ -1171,8 +1193,8 @@ styles:
         mix: texture
         shaders:
             uniforms:
-                u_customtexture: images/green29.jpg
-                u_scale: 0.75
+                u_customtexture: images/green5.jpg
+                u_scale: 0.85
 
     recreation-texture:
         base: polygons
@@ -1560,9 +1582,9 @@ styles:
                 # two textures to cross-fade between
                 u_textures:
                     - images/green33.jpg
-                    - images/green4.jpg
-                u_zoom_fade: [16, 17] # zooms to start/stop cross-fade
-                u_scale: 0.65 # number of times to repeat texture in a tile
+                    - images/green34.jpg
+                u_zoom_fade: [14, 15] # zooms to start/stop cross-fade
+                u_scale: 0.75 # number of times to repeat texture in a tile
             blocks:
                 position: |
                     // make tile worldspace coordinates available to the global block
