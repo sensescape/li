@@ -801,8 +801,8 @@ layers:
                     - protect_class: ['2','3','5']
             draw:
                 polygons:
-                    style: conservation-texture
-                    # style: national-parks-texture
+                    # style: conservation-texture
+                    style: national-parks-texture
                     # color: [1.000,0.000,0.000]
                     visible: true
             us_national_park:
@@ -813,8 +813,8 @@ layers:
                         - protect_class: ['2','3','5']
                 draw:
                     polygons:
-                        style: conservation-texture
-                        # style: national-parks-texture
+                        # style: conservation-texture
+                        style: national-parks-texture
                         # color: [1.000,0.000,0.000]
                         visible: true
 
@@ -826,8 +826,8 @@ layers:
                 not: { protect_class: ['2','3','5']}
             draw:
                 polygons:
-                    style: national-parks-texture
-                    # style: conservation-texture
+                    # style: national-parks-texture
+                    style: conservation-texture
                     # color: [1.000,0.000,0.000]
                     visible: true
 
@@ -1169,24 +1169,24 @@ styles:
         mix: texture
         shaders:
             uniforms:
-                u_customtexture: images/water17.jpg
-                u_scale: 0.5
+                u_customtexture: images/water20.jpg
+                u_scale: 0.6
 
     national-forest-texture:
         base: polygons
         mix: texture
         shaders:
             uniforms:
-                u_customtexture: images/green24.jpg
-                u_scale: 0.9
+                u_customtexture: images/green36.jpg
+                u_scale: 0.5
 
     golf-course-texture:
         base: polygons
         mix: texture
         shaders:
             uniforms:
-                u_customtexture: images/golf-lines2.jpg
-                u_scale: 0.9
+                u_customtexture: images/green2.jpg
+                u_scale: 0.6
 
     garden-texture:
         base: polygons
@@ -1201,7 +1201,7 @@ styles:
         mix: texture
         shaders:
             uniforms:
-                u_customtexture: images/green20.jpg
+                u_customtexture: images/green29.jpg
                 u_scale: 0.75
 
     playas-texture:
@@ -1380,10 +1380,10 @@ styles:
             uniforms:
                 # two textures to cross-fade between
                 u_textures:
-                    - images/water12.jpg
                     - images/water9.jpg
+                    - images/water19.jpg
                 u_zoom_fade: [11, 12] # zooms to start/stop cross-fade
-                u_scale: 0.55 # number of times to repeat texture in a tile
+                u_scale: 0.5 # number of times to repeat texture in a tile
             blocks:
                 position: |
                     // make tile worldspace coordinates available to the global block
@@ -1486,9 +1486,9 @@ styles:
                 u_zoom_stops: [11, 18]
                 # four textures to cross-fade between
                 u_textures:
-                    - images/green25.jpg
-                    - images/green32.jpg
-                    - images/green2.jpg
+                    - images/green35.jpg
+                    - images/green35.jpg
+                    - images/green35.jpg
                 u_zoom_fade_range: 0.5 # how quickly the zoom cross-fade happens
                 u_scale: 0.65 # number of times to repeat texture in a tile
             blocks:
@@ -1540,8 +1540,8 @@ styles:
             uniforms:
                 # two textures to cross-fade between
                 u_textures:
-                    - images/green21.jpg
-                    - images/green19.jpg
+                    - images/green24.jpg
+                    - images/green24.jpg
                 u_zoom_fade: [11, 12] # zooms to start/stop cross-fade
                 u_scale: 0.55 # number of times to repeat texture in a tile
             blocks:
@@ -1582,9 +1582,9 @@ styles:
                 # two textures to cross-fade between
                 u_textures:
                     - images/green33.jpg
-                    - images/green34.jpg
+                    - images/green36.jpg
                 u_zoom_fade: [14, 15] # zooms to start/stop cross-fade
-                u_scale: 0.75 # number of times to repeat texture in a tile
+                u_scale: 0.65 # number of times to repeat texture in a tile
             blocks:
                 position: |
                     // make tile worldspace coordinates available to the global block
