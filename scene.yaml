@@ -967,17 +967,13 @@ layers:
         #             visible: true
         #             width: 1px
 
-        # in_university:
-        #     filter:
-        #         landuse_kind: [university, college]
-        #     draw:
-        #         polygons:
-        #             visible: true
-        #             style: polygons-transparent
-        #             color: [1.000,1.000,1.000,0.5]
-        #         lines:
-        #             visible: true
-        #             width: 1px
+        in_university:
+            filter:
+                landuse_kind: [university, college]
+            draw:
+                polygons:
+                    visible: true
+                    style: buildings-universities
 
     places:
         data: { source: mapzen, layer: places }
@@ -1161,15 +1157,24 @@ styles:
         mix: texture
         shaders:
             uniforms:
-                u_customtexture: images/buildings-lines1.jpg
-                u_scale: 0.75
+                u_customtexture: images/buildings-dots6.jpg
+                u_scale: 0.6
+
+    buildings-universities:
+        base: polygons
+        mix: texture
+        shaders:
+            uniforms:
+                u_customtexture: images/buildings-dots8.jpg
+                u_scale: 0.6
 
     lakes-texture:
         base: polygons
         mix: texture
         shaders:
             uniforms:
-                u_customtexture: images/water20.jpg
+                # u_customtexture: images/water20.jpg
+                u_customtexture: images/water-waves-black4.jpg
                 u_scale: 0.6
 
     national-forest-texture:
@@ -1186,7 +1191,7 @@ styles:
         shaders:
             uniforms:
                 u_customtexture: images/green2.jpg
-                u_scale: 0.6
+                u_scale: 0.75
 
     garden-texture:
         base: polygons
@@ -1380,8 +1385,10 @@ styles:
             uniforms:
                 # two textures to cross-fade between
                 u_textures:
-                    - images/water9.jpg
-                    - images/water19.jpg
+                    # - images/water9.jpg
+                    # - images/water19.jpg
+                    - images/water-waves-black4.jpg
+                    - images/water-waves-black4.jpg
                 u_zoom_fade: [11, 12] # zooms to start/stop cross-fade
                 u_scale: 0.5 # number of times to repeat texture in a tile
             blocks:
@@ -1427,9 +1434,12 @@ styles:
                 u_zoom_stops: [13, 18]
                 # four textures to cross-fade between
                 u_textures:
-                    - images/green5.jpg
-                    - images/green6.jpg
-                    - images/green7.jpg
+                    # - images/green5.jpg
+                    # - images/green6.jpg
+                    # - images/green7.jpg
+                    - images/green38.jpg
+                    - images/green39.jpg
+                    - images/green39.jpg
                 u_zoom_fade_range: 0.5 # how quickly the zoom cross-fade happens
                 u_scale: 0.75 # number of times to repeat texture in a tile
             blocks:
@@ -1487,10 +1497,10 @@ styles:
                 # four textures to cross-fade between
                 u_textures:
                     - images/green35.jpg
-                    - images/green35.jpg
-                    - images/green35.jpg
+                    - images/green37.jpg
+                    - images/green37.jpg
                 u_zoom_fade_range: 0.5 # how quickly the zoom cross-fade happens
-                u_scale: 0.65 # number of times to repeat texture in a tile
+                u_scale: 1.00 # number of times to repeat texture in a tile
             blocks:
                 position: |
                     // make tile worldspace coordinates available to the global block
@@ -1540,10 +1550,13 @@ styles:
             uniforms:
                 # two textures to cross-fade between
                 u_textures:
-                    - images/green24.jpg
-                    - images/green24.jpg
+                    - images/green6.jpg
+                    - images/green5.jpg
+                    # - images/green7.jpg
+                    # - images/green24.jpg
+                    # - images/green24.jpg
                 u_zoom_fade: [11, 12] # zooms to start/stop cross-fade
-                u_scale: 0.55 # number of times to repeat texture in a tile
+                u_scale: 0.75 # number of times to repeat texture in a tile
             blocks:
                 position: |
                     // make tile worldspace coordinates available to the global block
