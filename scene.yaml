@@ -1437,11 +1437,11 @@ styles:
                     # - images/green5.jpg
                     # - images/green6.jpg
                     # - images/green7.jpg
-                    - images/green38.jpg
+                    - images/green39.jpg
                     - images/green39.jpg
                     - images/green39.jpg
                 u_zoom_fade_range: 0.5 # how quickly the zoom cross-fade happens
-                u_scale: 0.75 # number of times to repeat texture in a tile
+                u_scale: 0.85 # number of times to repeat texture in a tile
             blocks:
                 position: |
                     // make tile worldspace coordinates available to the global block
