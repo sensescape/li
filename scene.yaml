@@ -1183,7 +1183,7 @@ styles:
         shaders:
             uniforms:
                 u_customtexture: images/green36.jpg
-                u_scale: 0.5
+                u_scale: 0.55
 
     golf-course-texture:
         base: polygons
@@ -1206,7 +1206,7 @@ styles:
         mix: texture
         shaders:
             uniforms:
-                u_customtexture: images/green29.jpg
+                u_customtexture: images/green37.jpg
                 u_scale: 0.75
 
     playas-texture:
@@ -1431,7 +1431,7 @@ styles:
                 NUM_TEXTURE_STOPS: 2
             uniforms:
                 # zooms to start/stop cross-fade
-                u_zoom_stops: [13, 18]
+                u_zoom_stops: [12, 18]
                 # four textures to cross-fade between
                 u_textures:
                     # - images/green5.jpg
@@ -1496,11 +1496,14 @@ styles:
                 u_zoom_stops: [11, 18]
                 # four textures to cross-fade between
                 u_textures:
-                    - images/green35.jpg
-                    - images/green37.jpg
-                    - images/green37.jpg
+                    - images/green46.jpg
+                    - images/green48.jpg
+                    - images/green48.jpg
+                    # - images/green35.jpg
+                    # - images/green37.jpg
+                    # - images/green37.jpg
                 u_zoom_fade_range: 0.5 # how quickly the zoom cross-fade happens
-                u_scale: 1.00 # number of times to repeat texture in a tile
+                u_scale: 0.75 # number of times to repeat texture in a tile
             blocks:
                 position: |
                     // make tile worldspace coordinates available to the global block
@@ -1594,10 +1597,12 @@ styles:
             uniforms:
                 # two textures to cross-fade between
                 u_textures:
-                    - images/green40.jpg
-                    - images/green40.jpg
-                u_zoom_fade: [14, 15] # zooms to start/stop cross-fade
-                u_scale: 0.75 # number of times to repeat texture in a tile
+                    - images/green45.jpg
+                    - images/green47.jpg
+                    # - images/green35.jpg
+                    # - images/green37.jpg
+                u_zoom_fade: [11, 12] # zooms to start/stop cross-fade
+                u_scale: 0.55 # number of times to repeat texture in a tile
             blocks:
                 position: |
                     // make tile worldspace coordinates available to the global block
