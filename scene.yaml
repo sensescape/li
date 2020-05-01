@@ -1190,8 +1190,8 @@ styles:
         mix: texture
         shaders:
             uniforms:
-                u_customtexture: images/green2.jpg
-                u_scale: 0.75
+                u_customtexture: images/golf1.jpg
+                u_scale: 0.5
 
     garden-texture:
         base: polygons
@@ -1215,7 +1215,7 @@ styles:
         shaders:
             uniforms:
                 u_customtexture: images/water7.jpg
-                u_scale: 0.75
+                u_scale: 0.55
 
     texture:
         base: polygons
