@@ -472,7 +472,7 @@ layers:
                         filter: { is_tunnel: true, $zoom: { min: 13 } }
                         draw:
                             lines:
-                                color: [1.000,1.000,1.000]
+                                color: [0.000,0.000,0.000]
                             roads-dashed:
                                 style: roads-dashed-tunnel
                                 color: [1.000,1.000,1.000]
@@ -489,7 +489,7 @@ layers:
                 filter: { is_tunnel: true, $zoom: { min: 13 } }
                 draw:
                     lines:
-                        color: [1.000,1.000,1.000]
+                        color: [0.000,0.000,0.000]
                     roads-dashed:
                         style: roads-dashed-tunnel
                         order: global.order_add_1
@@ -525,7 +525,7 @@ layers:
                         filter: { is_tunnel: true, $zoom: { min: 13 } }
                         draw:
                             lines:
-                                color: [1.000,1.000,1.000]
+                                color: [0.000,0.000,0.000]
                             roads-dashed:
                                 style: roads-dashed-tunnel
                                 color: [1.000,1.000,1.000]
@@ -553,7 +553,9 @@ layers:
                         filter: { is_tunnel: true }
                         draw:
                             lines:
-                                color: [1.000,1.000,1.000]
+                                color: [0.000,0.000,0.000]
+                                outline:
+                                    color: [1.000,1.000,1.000]
 
                 routes:
                     filter: { ref: true, $zoom: { min: 12 } }
