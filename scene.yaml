@@ -604,7 +604,7 @@ layers:
             draw:
                 lines:
                     color: [1.000,1.000,1.000]
-                    width: [[15, 0px], [20, 6px]]
+                    width: [[15, 0px], [20, 7px]]
                     outline:
                         color: [0.000,0.000,0.000]
                         width: [[14, 0.25px], [16, 0.5px], [20, 0.25px]]
@@ -616,7 +616,7 @@ layers:
                 draw:
                     lines:
                         color: [1.000,1.000,1.000]
-                        width: [[15, 0px], [20, 6px]]
+                        width: [[15, 0px], [20, 7px]]
                         outline:
                             color: [0.000,0.000,0.000]
                             width: [[14, 0.25px], [16, 0.5px], [20, 0.25px]]
@@ -628,7 +628,7 @@ layers:
                 draw:
                     lines:
                         color: [1.000,1.000,1.000]
-                        width: [[15, 0px], [20, 6px]]
+                        width: [[15, 0px], [20, 7px]]
                         outline:
                             color: [0.000,0.000,0.000]
                             width: [[14, 0.25px], [16, 0.5px], [20, 0.25px]]
