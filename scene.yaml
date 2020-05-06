@@ -449,7 +449,7 @@ layers:
                         width: [[8, 0px], [14, 0.1px], [15, 1px], [16, 3px], [18, 12px]]
                         outline:
                             color: [0.000,0.000,0.000]
-                            width: [[8, 0.15px], [10, 0.25px], [14, 0.5px], [15, 1px]]
+                            width: [[8, 0.15px], [10, 0.25px], [14, 0.5px], [15, 1px], [18, 2px]]
                     roads-dashed:
                         style: roads-dashed
                         order: global.order_add_1
@@ -461,7 +461,8 @@ layers:
                     draw:
                         lines:
                             color: [1.000,1.000,1.000]
-                            width: [[8, 0px], [12, 0.1px], [13, 2px], [16, 5px], [18, 18px]]
+                            # color: red
+                            width: [[8, 0px], [12, 0.1px], [14, 2px], [16, 4px], [18, 18px]]
                             outline:
                                 color: [0.000,0.000,0.000]
                                 width: [[8, 0.15px], [10, 0.25px], [12, 1px], [13, 1px]]
@@ -532,7 +533,12 @@ layers:
                 draw:
                     lines:
                         color: [1.000,1.000,1.000]
-                        width: [[8, 0.5px], [16, 1.5px], [18, 8px]]
+                        # color: red
+                        width: [[8, 0px], [15, 0.1px], [16, 2px], [20, 12px]]
+                        outline:
+                            color: [0.000,0.000,0.000]
+                            # color: red
+                            width: [[8, 0.15px], [15, 0.4px], [17, 1px]]
                     roads-dashed:
                         visible: false
                 routes:
@@ -562,18 +568,17 @@ layers:
                             color: [1.000,1.000,1.000]
                             width: [[8, 0.5px], [16, 1px], [18, 3px]]
 
-        # minor_road:
-        #     filter:
-        #         kind: minor_road
-        #         not: { kind_detail: service }
-        #     draw:
-        #         lines:
-        #             color: [1.000,1.000,1.000]
-        #             # color: [1.000,0.000,0.000]
-        #             width: [[8, 0.5px], [15, 0.5px], [16, 3px], [18, 7px]]
-        #             outline:
-        #                 color: [0.200,0.200,0.200]
-        #                 width: [[8, 0px], [12, 0px], [15, 0.5px], [18, 3px]]
+        minor_road:
+            filter:
+                kind: minor_road
+                not: { kind_detail: service }
+            draw:
+                lines:
+                    color: [1.000,1.000,1.000]
+                    width: [[8, 0px], [15, 0.1px], [16, 2px], [20, 12px]]
+                    outline:
+                        color: [0.000,0.000,0.000]
+                        width: [[8, 0.15px], [15, 0.4px], [17, 1px]]
 
         # service_road:
         #     filter: { kind: minor_road, kind_detail: service }
