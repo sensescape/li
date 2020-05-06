@@ -163,7 +163,7 @@ layers:
         #         color: [0.000,0.000,0.000]
 
         lakes:
-            filter: { kind: [lake, water], $zoom: { min: 4 } }
+            filter: { kind: [lake, water, riverbank], $zoom: { min: 4 } }
             draw:
                 polygons:
                     order: global.feature_order
@@ -801,7 +801,6 @@ layers:
                     - protect_class: ['2','3','5']
             draw:
                 polygons:
-                    # style: conservation-texture
                     style: national-parks-texture
                     # color: [1.000,0.000,0.000]
                     visible: true
@@ -813,7 +812,6 @@ layers:
                         - protect_class: ['2','3','5']
                 draw:
                     polygons:
-                        # style: conservation-texture
                         style: national-parks-texture
                         # color: [1.000,0.000,0.000]
                         visible: true
@@ -826,7 +824,6 @@ layers:
                 not: { protect_class: ['2','3','5']}
             draw:
                 polygons:
-                    # style: national-parks-texture
                     style: conservation-texture
                     # color: [1.000,0.000,0.000]
                     visible: true
@@ -1174,15 +1171,23 @@ styles:
         shaders:
             uniforms:
                 # u_customtexture: images/water20.jpg
-                u_customtexture: images/water-waves-black4.jpg
+                u_customtexture: images/water-waves-black5.jpg
                 u_scale: 0.6
+
+    national-parks-texture:
+        base: polygons
+        mix: texture
+        shaders:
+            uniforms:
+                u_customtexture: images/national-parks.jpg
+                u_scale: 0.85
 
     national-forest-texture:
         base: polygons
         mix: texture
         shaders:
             uniforms:
-                u_customtexture: images/green36.jpg
+                u_customtexture: images/national-forest1.jpg
                 u_scale: 0.55
 
     golf-course-texture:
@@ -1190,7 +1195,7 @@ styles:
         mix: texture
         shaders:
             uniforms:
-                u_customtexture: images/golf1.jpg
+                u_customtexture: images/golf3.jpg
                 u_scale: 0.5
 
     garden-texture:
@@ -1198,15 +1203,15 @@ styles:
         mix: texture
         shaders:
             uniforms:
-                u_customtexture: images/green5.jpg
-                u_scale: 0.85
+                u_customtexture: images/garden2.jpg
+                u_scale: 0.5
 
     recreation-texture:
         base: polygons
         mix: texture
         shaders:
             uniforms:
-                u_customtexture: images/green37.jpg
+                u_customtexture: images/recreation.jpg
                 u_scale: 0.75
 
     playas-texture:
@@ -1387,8 +1392,8 @@ styles:
                 u_textures:
                     # - images/water9.jpg
                     # - images/water19.jpg
-                    - images/water-waves-black4.jpg
-                    - images/water-waves-black4.jpg
+                    - images/water-waves-black5.jpg
+                    - images/water-waves-black5.jpg
                 u_zoom_fade: [11, 12] # zooms to start/stop cross-fade
                 u_scale: 0.5 # number of times to repeat texture in a tile
             blocks:
@@ -1422,87 +1427,15 @@ styles:
                         TileTexture(u_textures[1],u_scale).rgb,
                         dz);
 
-    # MULTI ZOOM TRANSITION WITH WITH 3 IMAGES/TEXTURES
-    national-parks-texture:
-        base: polygons
-        shaders:
-            defines:
-                # MUST match number of entries in u_zoom_stops below
-                NUM_TEXTURE_STOPS: 2
-            uniforms:
-                # zooms to start/stop cross-fade
-                u_zoom_stops: [12, 18]
-                # four textures to cross-fade between
-                u_textures:
-                    # - images/green5.jpg
-                    # - images/green6.jpg
-                    # - images/green7.jpg
-                    - images/green39.jpg
-                    - images/green39.jpg
-                    - images/green39.jpg
-                u_zoom_fade_range: 0.5 # how quickly the zoom cross-fade happens
-                u_scale: 0.85 # number of times to repeat texture in a tile
-            blocks:
-                position: |
-                    // make tile worldspace coordinates available to the global block
-                    v_pos = modelPosition();
-                global: |
-                    varying vec4 v_pos;
-                    vec4 TileTexture(sampler2D tex, float scale) {
-                        // CONTROLS
-                        // how smooth should the transition be?
-                        // 0 = snapping, 1 = continuous smoothstep crossfade
-                        float smoothness = .75;
-                        vec2 IN = v_pos.xy * scale * exp2(floor(u_map_position.z)-u_tile_origin.z);
-                        vec2 OUT = v_pos.xy * scale * exp2(floor(u_map_position.z)-u_tile_origin.z + 1.);
-                        vec4 intex = texture2D(tex,fract(IN));
-                        vec4 outtex = texture2D(tex,fract(OUT));
-                        float texf;
-                        //// linear transition
-                        // texf = fract(u_map_position.z);
-                        //// use smoothstep instead
-                        float tx = (1. - smoothness) * .5;
-                        texf = smoothstep(tx, 1.-tx, fract(u_map_position.z));
-                        return mix(intex, outtex, texf);
-                    }
-
-                    vec3 blendTextureSet(float z) {
-                        const int numTextureStops = int(NUM_TEXTURE_STOPS);
-                        vec3 iTex = TileTexture(u_textures[numTextureStops], u_scale).rgb;
-                        vec3 jTex = TileTexture(u_textures[numTextureStops], u_scale).rgb;
-                        float textureFade = 1.;
-
-                        for (int a=0; a < numTextureStops; a++) {
-                            if (z < u_zoom_stops[a]) {
-                                iTex = TileTexture(u_textures[a], u_scale).rgb;
-                                jTex = TileTexture(u_textures[a+1], u_scale).rgb;
-                                textureFade = 1. - clamp(u_zoom_stops[a] - z, 0., u_zoom_fade_range) / u_zoom_fade_range;
-                                break;
-                            }
-                        }
-                        return mix(iTex, jTex, textureFade);
-                    }
-                color: |
-                    color.rgb = blendTextureSet(u_map_position.z);
-
     parks-texture:
         base: polygons
         shaders:
-            defines:
-                # MUST match number of entries in u_zoom_stops below
-                NUM_TEXTURE_STOPS: 2
             uniforms:
-                # zooms to start/stop cross-fade
-                u_zoom_stops: [11, 18]
-                # four textures to cross-fade between
+                # two textures to cross-fade between
                 u_textures:
-                    - images/green46.jpg
-                    - images/green48.jpg
-                    - images/green48.jpg
-                    # - images/green35.jpg
-                    # - images/green37.jpg
-                    # - images/green37.jpg
-                u_zoom_fade_range: 0.5 # how quickly the zoom cross-fade happens
+                    - images/parks.jpg
+                    - images/parks2.jpg
+                u_zoom_fade: [11, 12] # zooms to start/stop cross-fade
                 u_scale: 0.75 # number of times to repeat texture in a tile
             blocks:
                 position: |
@@ -1514,7 +1447,7 @@ styles:
                         // CONTROLS
                         // how smooth should the transition be?
                         // 0 = snapping, 1 = continuous smoothstep crossfade
-                        float smoothness = .75;
+                        float smoothness = .25;
                         vec2 IN = v_pos.xy * scale * exp2(floor(u_map_position.z)-u_tile_origin.z);
                         vec2 OUT = v_pos.xy * scale * exp2(floor(u_map_position.z)-u_tile_origin.z + 1.);
                         vec4 intex = texture2D(tex,fract(IN));
@@ -1527,37 +1460,23 @@ styles:
                         texf = smoothstep(tx, 1.-tx, fract(u_map_position.z));
                         return mix(intex, outtex, texf);
                     }
-
-                    vec3 blendTextureSet(float z) {
-                        const int numTextureStops = int(NUM_TEXTURE_STOPS);
-                        vec3 iTex = TileTexture(u_textures[numTextureStops], u_scale).rgb;
-                        vec3 jTex = TileTexture(u_textures[numTextureStops], u_scale).rgb;
-                        float textureFade = 1.;
-
-                        for (int a=0; a < numTextureStops; a++) {
-                            if (z < u_zoom_stops[a]) {
-                                iTex = TileTexture(u_textures[a], u_scale).rgb;
-                                jTex = TileTexture(u_textures[a+1], u_scale).rgb;
-                                textureFade = 1. - clamp(u_zoom_stops[a] - z, 0., u_zoom_fade_range) / u_zoom_fade_range;
-                                break;
-                            }
-                        }
-                        return mix(iTex, jTex, textureFade);
-                    }
                 color: |
-                    color.rgb = blendTextureSet(u_map_position.z);
+                    float dz = clamp((u_map_position.z - u_zoom_fade[0]) / (u_zoom_fade[1] - u_zoom_fade[0]), 0., 1.);
+                    // color.rgb = TileTexture(u_textures[0],u_scale).rgb;
+                    color.rgb = mix(
+                        TileTexture(u_textures[0],u_scale).rgb,
+                        TileTexture(u_textures[1],u_scale).rgb,
+                        dz);
 
+    
     conservation-texture:
         base: polygons
         shaders:
             uniforms:
                 # two textures to cross-fade between
                 u_textures:
-                    - images/green6.jpg
-                    - images/green5.jpg
-                    # - images/green7.jpg
-                    # - images/green24.jpg
-                    # - images/green24.jpg
+                    - images/conservation1.jpg
+                    - images/conservation3.jpg
                 u_zoom_fade: [11, 12] # zooms to start/stop cross-fade
                 u_scale: 0.75 # number of times to repeat texture in a tile
             blocks:
@@ -1597,10 +1516,8 @@ styles:
             uniforms:
                 # two textures to cross-fade between
                 u_textures:
-                    - images/green45.jpg
-                    - images/green47.jpg
-                    # - images/green35.jpg
-                    # - images/green37.jpg
+                    - images/forest3.jpg
+                    - images/forest4.jpg
                 u_zoom_fade: [11, 12] # zooms to start/stop cross-fade
                 u_scale: 0.55 # number of times to repeat texture in a tile
             blocks:
