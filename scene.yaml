@@ -782,6 +782,14 @@ layers:
                     # color: [1.000,0.000,0.000]
                     visible: true
 
+        beach:
+            filter:
+                kind: beach
+            draw:
+                polygons:
+                    style: beach-texture
+                    visible: true
+
         # hospital:
         #         filter:
         #             kind: hospital
@@ -1087,6 +1095,14 @@ styles:
             uniforms:
                 u_customtexture: images/garden2.jpg
                 u_scale: 0.5
+
+    beach-texture:
+        base: polygons
+        mix: texture
+        shaders:
+            uniforms:
+                u_customtexture: images/beach2.jpg
+                u_scale: 1.00
 
     recreation-texture:
         base: polygons
