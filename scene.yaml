@@ -1101,8 +1101,8 @@ styles:
         mix: texture
         shaders:
             uniforms:
-                u_customtexture: images/beach2.jpg
-                u_scale: 1.00
+                u_customtexture: images/beach2a.jpg
+                u_scale: 0.75
 
     recreation-texture:
         base: polygons
