@@ -1147,7 +1147,7 @@ styles:
         shaders:
             uniforms:
                 u_customtexture: images/garden2.jpg
-                u_scale: 0.5
+                u_scale: 0.4
 
     beach-texture:
         base: polygons
@@ -1343,8 +1343,8 @@ styles:
                 u_textures:
                     # - images/water9.jpg
                     # - images/water19.jpg
-                    - images/water-waves-black7.jpg
-                    - images/water-waves-black7.jpg
+                    - images/water-waves-black8.jpg
+                    - images/water-waves-black8.jpg
                     # - images/water-big3.jpg
                     # - images/water-big3.jpg
                 u_zoom_fade: [11, 12] # zooms to start/stop cross-fade
@@ -1390,7 +1390,7 @@ styles:
                     - images/parks2.jpg
                 u_zoom_fade: [11, 12] # zooms to start/stop cross-fade
                 # u_scale: 0.75 # number of times to repeat texture in a tile
-                u_scale: 0.65
+                u_scale: 0.5
             blocks:
                 position: |
                     // make tile worldspace coordinates available to the global block
@@ -1473,7 +1473,7 @@ styles:
                     - images/forest3.jpg
                     - images/forest4.jpg
                 u_zoom_fade: [11, 12] # zooms to start/stop cross-fade
-                u_scale: 0.55 # number of times to repeat texture in a tile
+                u_scale: 0.3 # number of times to repeat texture in a tile
             blocks:
                 position: |
                     // make tile worldspace coordinates available to the global block
