@@ -1072,7 +1072,7 @@ styles:
                     color.rgb = mix(
                         mix(u_colors[0], u_colors[1], f_st.x),
                         mix(u_colors[2], u_colors[3], f_st.x),
-                        f_st.y/0.07
+                        f_st.y/0.15
                     );
 
     buildings-texture:
@@ -1343,8 +1343,8 @@ styles:
                 u_textures:
                     # - images/water9.jpg
                     # - images/water19.jpg
-                    - images/water-waves-black5.jpg
-                    - images/water-waves-black5.jpg
+                    - images/water-waves-black7.jpg
+                    - images/water-waves-black7.jpg
                     # - images/water-big3.jpg
                     # - images/water-big3.jpg
                 u_zoom_fade: [11, 12] # zooms to start/stop cross-fade
