@@ -1185,8 +1185,8 @@ styles:
         mix: texture
         shaders:
             uniforms:
-                u_customtexture: images/buildings-dots8.jpg
-                u_scale: 0.25
+                u_customtexture: images/buildings-dots10.jpg
+                u_scale: 1.00
 
     lakes-texture:
         base: polygons
