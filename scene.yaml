@@ -155,13 +155,6 @@ layers:
 
     water:
         data: { source: mapzen, layer: water }
-        # draw:
-        #     polygons:
-        #         style: water-texture
-        #         # style: texture-terrain-conservation
-        #         order: global.feature_order
-        #         color: [0.000,0.000,0.000]
-
         lakes:
             filter: { kind: [lake, water, riverbank], $zoom: { min: 4 } }
             draw:
@@ -191,43 +184,9 @@ layers:
             draw:
                 polygons:
                     order: global.feature_order
-                    # style: swimming-pool-noise2
-                    color: [0.000,0.000,1.000]
+                    style: swimming-pool-noise2
+                    color: [1.000,1.000,1.000]
                     visible: true
-
-
-        # lakes:
-        #     filter:
-        #         all:
-        #             - kind: [ocean, lake, water, riverbank, reservoir, swimming_pool]
-        #         # WARNING: any area filters here must match the area filters in the water-boundaries-not_ocean layer
-        #         any:
-        #             # limit show smaller landuse areas to higher zooms
-        #             - { $zoom: { min: 1 },  area: { min: 40000000000 } }
-        #             - { $zoom: { min: 2 },  area: { min: 20000000000 } }
-        #             # some weird natural earth scale set transition
-        #             - { $zoom: { min: 3 },  area: { min: 80000000000 } }
-        #             - { $zoom: { min: 4 },  area: { min: 5000000000 } }
-        #             - { $zoom: { min: 5 },  area: { min: 700000000 } }
-        #             - { $zoom: { min: 6 },  area: { min: 500000000 } }
-        #             - { $zoom: { min: 7 },  area: { min: 160000000 } }
-        #             - { $zoom: { min: 8 },  area: { min: 40000000 } }
-        #             - { $zoom: { min: 9 },  area: { min: 10000000 } }
-        #             - { $zoom: { min: 10 }, area: { min: 8000000 } }
-        #             - { $zoom: { min: 11 }, area: { min: 2000000 } }
-        #             - { $zoom: { min: 12 }, area: { min: 200000 } }
-        #             - { $zoom: { min: 13 }, area: { min: 100000 } }
-        #             - { $zoom: { min: 14 }, area: { min: 2000 } }
-        #             - { $zoom: { min: 15 } }
-        #     draw:
-        #         polygons:
-        #             color: blue
-
-        # other_areas:
-        #     filter: { not: { kind: [ocean, lake, water, reservoir] }, $zoom: { min: 10 }, area: { min: 100 } }
-        #     draw:
-        #         polygons:
-        #             color: red
 
         playas:
             filter: { kind: playa, $zoom: { min: 4 } }
@@ -469,7 +428,7 @@ layers:
                         width: [[8, 0px], [14, 0.1px], [15, 1px], [16, 3px], [18, 12px]]
                         outline:
                             color: [0.000,0.000,0.000]
-                            width: [[8, 0.15px], [10, 0.25px], [14, 0.5px], [15, 1px]]
+                            width: [[8, 0.15px], [10, 0.25px], [14, 0.5px], [15, 2px]]
                     roads-dashed:
                         style: roads-dashed
                         order: global.order_add_1
@@ -484,7 +443,7 @@ layers:
                             width: [[8, 0px], [12, 0.1px], [14, 2px], [16, 4px], [18, 18px]]
                             outline:
                                 color: [0.000,0.000,0.000]
-                                width: [[8, 0.15px], [10, 0.25px], [12, 1px], [13, 1px]]
+                                width: [[8, 0.15px], [10, 0.25px], [12, 1px], [15, 2px]]
                         roads-dashed:
                             color: [1.000,1.000,1.000]
 
@@ -524,7 +483,7 @@ layers:
                         width: [[8, 0px], [14, 0.1px], [15, 1px], [16, 3px], [18, 12px]]
                         outline:
                             color: [0.000,0.000,0.000]
-                            width: [[8, 0.15px], [10, 0.25px], [14, 0.5px], [15, 1px]]
+                            width: [[8, 0.15px], [10, 0.25px], [14, 0.5px], [15, 2px]]
                     roads-dashed:
                         style: roads-dashed
                         order: global.order_add_1
@@ -627,8 +586,8 @@ layers:
                     width: [[15, 0px], [20, 7px]]
                     outline:
                         color: [0.000,0.000,0.000]
-                        width: [[14, 0.25px], [16, 0.5px], [20, 0.25px]]
-                        dash: [0.65, 0.2]
+                        width: [[14, 0.25px], [16, 1px]]
+                        dash: [0.3, 0.4]
                         dash_background_color: [1.000,1.000,1.000]
 
             pedestrian:
@@ -639,8 +598,8 @@ layers:
                         width: [[15, 0px], [20, 7px]]
                         outline:
                             color: [0.000,0.000,0.000]
-                            width: [[14, 0.25px], [16, 0.5px], [20, 0.25px]]
-                            dash: [0.65, 0.2]
+                            width: [[14, 0.25px], [16, 1px]]
+                            dash: [0.3, 0.4]
                             dash_background_color: [1.000,1.000,1.000]
 
             footway:
@@ -651,9 +610,43 @@ layers:
                         width: [[15, 0px], [20, 7px]]
                         outline:
                             color: [0.000,0.000,0.000]
-                            width: [[14, 0.25px], [16, 0.5px], [20, 0.25px]]
-                            dash: [0.65, 0.2]
+                            width: [[14, 0.25px], [16, 1px]]
+                            dash: [0.3, 0.4]
                             dash_background_color: [1.000,1.000,1.000]
+
+
+        airport-lines:
+            filter: { kind: aeroway, kind_detail: [runway,taxiway] }
+            draw:
+                lines:
+                    order: global.order
+                    color: [0.800,0.800,0.800]
+                    width: 2px
+            taxiway:
+                filter: { kind_detail: taxiway }
+                draw:
+                    lines:
+                        color: [0.000,0.000,0.000]
+                        width: [[12,0px],[15,3px],[20,8px]]
+                        outline:
+                            width: 0px
+
+            runway:
+                filter: { kind_detail: runway }
+                draw:
+                    lines:
+                        color: [0.000,0.000,0.000]
+                        width: [[9,0px],[11,1px],[13,5px],[15,30px],[20,100m]]
+                        outline:
+                            style: runway-glow
+                            color: [[9,[0.215,1.000,1.000]],[15,[0.078,0.129,0.259]]]
+                            width: [[9,2px],[11,3px],[12,2px],[20,12px]]
+                runway-detail:
+                    filter: { $zoom: { min: 12 } }
+                    draw:
+                        runway-dots:
+                            color: [1.000,1.000,1.000]
+                            width: [[12,2px],[15,15px],[20,100px]]
 
 
         #     corridor:
@@ -886,37 +879,7 @@ layers:
             draw:
                 polygons:
                     visible: true
-                    # style: buildings-texture3
-                    # style: buildings-texture2
-                    # style: buildings-texture
                     style: grid-gradient-buildings
-
-
-            # extrude:
-            #     filter:
-            #         all:
-            #             - $zoom: { min: 15 }
-            #             - height: { min: 200 }
-            #             - not:
-            #                 - layer: [-1, -2, -3, -4, -5]
-            #     draw:
-            #         polygons:
-            #             visible: true
-            #             color: [0.500,0.500,0.500]
-            #             extrude: global.building_extrude_height
-
-
-        # in_hospital:
-        #     filter:
-        #         landuse_kind: hospital
-        #     draw:
-        #         polygons:
-        #             visible: true
-        #             style: polygons-transparent
-        #             color: [1.000,1.000,1.000,0.5]
-        #         lines:
-        #             visible: true
-        #             width: 1px
 
         in_university:
             filter:
@@ -1200,8 +1163,8 @@ styles:
         mix: texture
         shaders:
             uniforms:
-                u_customtexture: images/earth-dots12.jpg
-                u_scale: 1.0
+                u_customtexture: images/earth-dots13.jpg
+                u_scale: 0.5
 
     buildings-universities:
         base: polygons
@@ -1225,8 +1188,8 @@ styles:
         mix: texture
         shaders:
             uniforms:
-                u_customtexture: images/farm1.jpg
-                u_scale: 0.65
+                u_customtexture: images/farm3.jpg
+                u_scale: 0.75
                 # u_scale: 0.85
 
     man-made-texture:
@@ -1276,8 +1239,8 @@ styles:
         mix: texture
         shaders:
             uniforms:
-                u_customtexture: images/beach2a.jpg
-                u_scale: 0.75
+                u_customtexture: images/beach2b.jpg
+                u_scale: 0.5
 
     recreation-texture:
         base: polygons
@@ -1294,6 +1257,27 @@ styles:
             uniforms:
                 u_customtexture: images/water7.jpg
                 u_scale: 0.55
+
+    runway-glow:
+        base: lines
+        mix: [lines-glow]
+        shaders:
+            defines:
+                GLOW_WIDTH: 0.80
+                GLOW_BRIGHTNESS: .5
+
+    runway-dots:
+        base: lines
+        mix: [lines-dots-glow]
+        animated: true
+        shaders:
+            defines:
+                DOTS_ANIMATE: color.a *=abs(sin(v_texcoord.y+u_time))*1.0
+            blocks:
+                filter: |
+                    #ifdef DOTS_ANIMATE
+                    DOTS_ANIMATE;
+                    #endif
 
     texture:
         base: polygons
@@ -1469,7 +1453,7 @@ styles:
                     - images/water-waves-black8.jpg
                     # - images/water-big3.jpg
                     # - images/water-big3.jpg
-                u_zoom_fade: [5, 6] # zooms to start/stop cross-fade
+                u_zoom_fade: [7, 8] # zooms to start/stop cross-fade
                 u_scale: 0.5 # number of times to repeat texture in a tile
             blocks:
                 position: |
