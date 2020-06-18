@@ -160,7 +160,6 @@ layers:
             draw:
                 polygons:
                     order: global.feature_order
-                    # style: lakes-texture
                     style: water-texture
 
         oceans:
@@ -175,7 +174,7 @@ layers:
             draw:
                 polygons:
                     order: global.feature_order
-                    style: swimming-pool-noise2
+                    style: swimming-pool-noise
                     color: [1.000,1.000,1.000]
                     visible: true
 
@@ -184,7 +183,7 @@ layers:
             draw:
                 polygons:
                     order: global.feature_order
-                    style: swimming-pool-noise2
+                    style: swimming-pool-noise
                     color: [1.000,1.000,1.000]
                     visible: true
 
@@ -834,7 +833,6 @@ layers:
             draw:
                 polygons:
                     style: stripes-man-made-overlap-horizontal
-                    # style: man-made-texture
                     color: [0.000,0.000,0.000]
                     visible: true
             pier:
@@ -1083,10 +1081,6 @@ styles:
         shaders:
             uniforms:
                 u_colors:
-                    # - [1.000,1.000,1.000] # lower-left
-                    # - [0.000,0.000,0.000] # lower-right
-                    # - [1.000,1.000,1.000] # upper-left
-                    # - [0.000,0.000,0.000] # upper-right
                     - [0.000,0.000,0.000] # lower-left
                     - [1.000,1.000,1.000] # lower-right
                     - [0.000,0.000,0.000] # upper-left
@@ -1134,30 +1128,6 @@ styles:
                         f_st.y/0.65
                     );
 
-    buildings-texture:
-        base: polygons
-        mix: texture
-        shaders:
-            uniforms:
-                u_customtexture: images/buildings-dots6.jpg
-                u_scale: 0.6
-
-    buildings-texture2:
-        base: polygons
-        mix: texture
-        shaders:
-            uniforms:
-                u_customtexture: images/building-dots4.jpg
-                u_scale: 1.0
-
-    buildings-texture3:
-        base: polygons
-        mix: texture
-        shaders:
-            uniforms:
-                u_customtexture: images/buildings-dots8.jpg
-                u_scale: 0.75
-
     earth-texture:
         base: polygons
         mix: texture
@@ -1174,15 +1144,6 @@ styles:
                 u_customtexture: images/buildings-dots10.jpg
                 u_scale: 1.00
 
-    lakes-texture:
-        base: polygons
-        mix: texture
-        shaders:
-            uniforms:
-                # u_customtexture: images/water20.jpg
-                u_customtexture: images/water-waves-black5.jpg
-                u_scale: 0.6
-
     farms-texture:
         base: polygons
         mix: texture
@@ -1190,15 +1151,6 @@ styles:
             uniforms:
                 u_customtexture: images/farm3.jpg
                 u_scale: 0.75
-                # u_scale: 0.85
-
-    man-made-texture:
-        base: polygons
-        mix: texture
-        shaders:
-            uniforms:
-                u_customtexture: images/man-made5.jpg
-                u_scale: 0.5
                 # u_scale: 0.85
 
     national-parks-texture:
@@ -1447,12 +1399,8 @@ styles:
             uniforms:
                 # two textures to cross-fade between
                 u_textures:
-                    # - images/water9.jpg
                     - images/water23.jpg
-                    # - images/water-waves-black8.jpg
                     - images/water-waves-black8.jpg
-                    # - images/water-big3.jpg
-                    # - images/water-big3.jpg
                 u_zoom_fade: [7, 8] # zooms to start/stop cross-fade
                 u_scale: 0.5 # number of times to repeat texture in a tile
             blocks:
@@ -1668,27 +1616,6 @@ styles:
                     //color *= 1. - texture2D(u_tex, fract(vec2(v_texcoord.x, v_texcoord.y))); // inverted & tinted
                     //color.a = texture2D(u_tex, fract(vec2(v_texcoord.x, v_texcoord.y))).a; // use texture's alpha
 
-    runway-glow:
-        base: lines
-        mix: [lines-glow]
-        shaders:
-            defines:
-                GLOW_WIDTH: 0.80
-                GLOW_BRIGHTNESS: .5
-
-    runway-dots:
-        base: lines
-        mix: [lines-dots-glow]
-        animated: true
-        shaders:
-            defines:
-                DOTS_ANIMATE: color.a *=abs(sin(v_texcoord.y+u_time))*1.0
-            blocks:
-                filter: |
-                    #ifdef DOTS_ANIMATE
-                    DOTS_ANIMATE;
-                    #endif
-
     highway-dashed:
         base: lines
         dash: [8,10]
@@ -1725,30 +1652,30 @@ styles:
                 position: |
                     v_texcoord.y *= 4.;
 
-    highway-casing:
-        base: lines
-        mix: [functions-aastep, functions-pulse, functions-zoom]
-        texcoords: true
-        shaders:
-            defines:
-                ZOOM_START: 16.
-                ZOOM_END: 19.
+    # highway-casing:
+    #     base: lines
+    #     mix: [functions-aastep, functions-pulse, functions-zoom]
+    #     texcoords: true
+    #     shaders:
+    #         defines:
+    #             ZOOM_START: 16.
+    #             ZOOM_END: 19.
 
-                BACKGROUND_COLOR: vec3(0.086,0.135,0.260)
-                # CAST_A_COLOR: vec3(0.541,0.969,0.949)
-                CAST_A_COLOR: v_color.rgb
-                CAST_A_WIDTH: 0.03
-                CAST_A_DIST: mix(0.47,0.34,zoom())
-                # CAST_B_COLOR: vec3(0.800,1.000,0.987)
-                CAST_B_COLOR: v_color.rgb+vec3(0.259,0.031,0.038)
-                CAST_B_WIDTH: 0.07
-                CAST_B_DIST: 0.47
-            blocks:
-                color: |
-                    float x = abs(v_texcoord.x-.5);
-                    color = mix(vec4(BACKGROUND_COLOR,1), color, aastep(CAST_B_DIST+CAST_B_WIDTH*.5, x));
-                    color.rgb = mix(color.rgb, CAST_A_COLOR, aastep(.5, pulse(x, CAST_A_DIST, CAST_A_WIDTH)));
-                    color.rgb = mix(color.rgb, CAST_B_COLOR, aastep(.5, pulse(x, CAST_B_DIST, CAST_B_WIDTH)));
+    #             BACKGROUND_COLOR: vec3(0.086,0.135,0.260)
+    #             # CAST_A_COLOR: vec3(0.541,0.969,0.949)
+    #             CAST_A_COLOR: v_color.rgb
+    #             CAST_A_WIDTH: 0.03
+    #             CAST_A_DIST: mix(0.47,0.34,zoom())
+    #             # CAST_B_COLOR: vec3(0.800,1.000,0.987)
+    #             CAST_B_COLOR: v_color.rgb+vec3(0.259,0.031,0.038)
+    #             CAST_B_WIDTH: 0.07
+    #             CAST_B_DIST: 0.47
+    #         blocks:
+    #             color: |
+    #                 float x = abs(v_texcoord.x-.5);
+    #                 color = mix(vec4(BACKGROUND_COLOR,1), color, aastep(CAST_B_DIST+CAST_B_WIDTH*.5, x));
+    #                 color.rgb = mix(color.rgb, CAST_A_COLOR, aastep(.5, pulse(x, CAST_A_DIST, CAST_A_WIDTH)));
+    #                 color.rgb = mix(color.rgb, CAST_B_COLOR, aastep(.5, pulse(x, CAST_B_DIST, CAST_B_WIDTH)));
 
 
     highway-glow:
@@ -1759,15 +1686,15 @@ styles:
                 GLOW_WIDTH: 0.45
                 GLOW_BRIGHTNESS: .25
 
-    roads-glow:
-        base: lines
-        mix: [functions-zoom, lines-glow]
-        shaders:
-            defines:
-                ZOOM_START: 5.
-                ZOOM_END: 6.
-                GLOW_WIDTH: mix(1.,.45,zoom())
-                GLOW_BRIGHTNESS: zoom()*.22
+    # roads-glow:
+    #     base: lines
+    #     mix: [functions-zoom, lines-glow]
+    #     shaders:
+    #         defines:
+    #             ZOOM_START: 5.
+    #             ZOOM_END: 6.
+    #             GLOW_WIDTH: mix(1.,.45,zoom())
+    #             GLOW_BRIGHTNESS: zoom()*.22
 
     stripes-man-made-overlap-horizontal:
         base: polygons
@@ -1802,26 +1729,6 @@ styles:
         mix: [space-tile, generative-noise, patterns-stripes, pattern-noise]
         shaders:
             defines:
-                STRIPES_WIDTH: .3
-                STRIPES_ALPHA: 1.0
-                STRIPES_SCALE: 5.
-                STRIPES_ANGLE: 3.14159265
-            uniforms:
-                u_noise_freq: 0.0006
-                u_noise_scale: 0.45
-                u_background_color: [0.000,0.000,0.000]
-            blocks:
-                color: |
-                    float a = stripes(patternNoiseCoords() * STRIPES_SCALE,
-                                    STRIPES_WIDTH,
-                                    STRIPES_ANGLE);
-                    color.rgb = mix(color.rgb, u_background_color, a);
-
-    swimming-pool-noise2:
-        base: polygons
-        mix: [space-tile, generative-noise, patterns-stripes, pattern-noise]
-        shaders:
-            defines:
                 STRIPES_WIDTH: .5
                 STRIPES_WIDTH2: .75
                 STRIPES_ALPHA: 1.0
@@ -1840,35 +1747,6 @@ styles:
                     color.rgb = mix(mix(color.rgb, u_background_color2, b), u_background_color, a);
 
     space-screen:
-        doc:
-            author: 
-                name: Patricio Gonzalez Vivo
-                twitter: patriciogv
-            version: 0.0.1
-            tangram-version: 0.0.7
-            licence: MIT
-            description: |
-                Get the coordinates in screen space streaching the proportion ('vec2 getScreenCoords ()') or non-streatching the proportion ('getScreenNonStretchCoords ()')
-            examples:
-                press:
-                    url: https://tangrams.github.io/tangram-sandbox/styles/press.yaml
-                    img: https://tangrams.github.io/tangram-sandbox/styles/press.png
-                    lines: 136-145
-                radar:
-                    url: https://tangrams.github.io/tangram-sandbox/styles/radar.yaml
-                    img: https://tangrams.github.io/tangram-sandbox/styles/radar.png
-                    lines: 0-143
-        test:
-            screen:
-                blocks:
-                    color: |
-                        vec2 st = getScreenCoords();
-                        color.rg += fract(st*3.);
-            screen_nonstretch:
-                blocks:
-                    color: |
-                        vec2 st = getScreenNonStretchCoords();
-                        color.rg += fract(st*3.);
         shaders:
             blocks:
                 global: |
