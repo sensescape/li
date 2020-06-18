@@ -842,25 +842,13 @@ layers:
                         # color: [1.000,0.000,0.000]
                         visible: true
 
-        # hospital:
-        #         filter:
-        #             kind: hospital
-        #         draw:
-        #             polygons:
-        #                 style: glow-dots
-        #                 color: [0.900,0.900,0.900]
-        #                 visible: true
-
-        # university:
-        #     filter:
-        #         all:
-        #             - kind: [university, college]
-        #             - $zoom: { min: 14 }
-        #     draw:
-        #         polygons:
-        #             style: gradient1
-        #             color: [0.900,0.900,0.900]
-        #             visible: true
+        pitch:
+            filter: { kind: pitch }
+            draw:
+                polygons:
+                    style: pitch-texture
+                    # color: [1.000,0.000,0.000]
+                    visible: true
 
     buildings:
         data: { source: mapzen, layer: buildings }
@@ -1209,6 +1197,14 @@ styles:
             uniforms:
                 u_customtexture: images/water7.jpg
                 u_scale: 0.55
+
+    pitch-texture:
+        base: polygons
+        mix: texture
+        shaders:
+            uniforms:
+                u_customtexture: images/earth-dots4.jpg
+                u_scale: 1.0
 
     runway-glow:
         base: lines
