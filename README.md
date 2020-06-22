@@ -2,7 +2,7 @@
 
 Tangram and Textures
 
-![li-amsterdam](https://raw.githubusercontent.com/sensescape/stripes-frequency-color/master/images/los-angeles1b.jpg)
+![li-amsterdam](https://raw.githubusercontent.com/sensescape/li/master/images/amsteram4.jpg)
 
 ### To run locally:
 
