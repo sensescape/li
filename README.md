@@ -2,6 +2,8 @@
 
 Tangram and Textures
 
+Li - Amsterdam [https://geraldinesarmiento.com/cartography/2020/6/21/li-amsterdam](https://geraldinesarmiento.com/cartography/2020/6/21/li-amsterdam)
+
 ![li-amsterdam](https://raw.githubusercontent.com/sensescape/li/master/images/amsterdam4.jpg)
 
 ### To run locally:
