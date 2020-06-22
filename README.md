@@ -2,7 +2,7 @@
 
 Tangram and Textures
 
-![li-amsterdam](https://raw.githubusercontent.com/sensescape/li/master/images/amsteram4.jpg)
+![li-amsterdam](https://raw.githubusercontent.com/sensescape/li/master/images/amsterdam4.jpg)
 
 ### To run locally:
 
