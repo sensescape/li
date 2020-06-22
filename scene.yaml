@@ -34,7 +34,6 @@ global:
     order_add_3: function () { return (feature.sort_rank * 20 + 3); }
     order_add_2: function () { return (feature.sort_rank * 20 + 2); }
     order_add_1: function () { return (feature.sort_rank * 20 + 1); }
-    feature_order: function() { return feature.sort_rank; }
     order: function () { return (feature.sort_rank * 20) || 0; }
     order_sub_1: function () { return (feature.sort_rank * 20 - 1); }
     order_sub_2: function () { return (feature.sort_rank * 20 - 2); }
@@ -260,7 +259,7 @@ layers:
     roads:
         data: { source: mapzen }
         enabled: true
-        filter: { not: { kind: rail } }
+        # filter: { not: { kind: rail } }
         draw:
             lines:
                 width: 1px
@@ -424,10 +423,10 @@ layers:
                         style: lines
                         order: global.order
                         color: [1.000,1.000,1.000]
-                        width: [[8, 0px], [14, 0.1px], [15, 1px], [16, 3px], [18, 12px]]
+                        width: [[8, 0px], [14, 0.1px], [15, 2px], [16, 3px], [18, 12px]]
                         outline:
                             color: [0.000,0.000,0.000]
-                            width: [[8, 0.15px], [10, 0.25px], [14, 0.5px], [15, 2px]]
+                            width: [[8, 0.15px], [10, 0.25px], [14, 0.75px], [15, 2px]]
                     roads-dashed:
                         style: roads-dashed
                         order: global.order_add_1
@@ -540,7 +539,7 @@ layers:
                     draw:
                         lines:
                             color: [1.000,1.000,1.000]
-                            width: [[8, 0.5px], [16, 1.5px], [18, 12px]]
+                            width: [[8, 0.5px], [16, 2.5px], [18, 12px]]
                 link:
                     filter: { is_link: true } # on- and off-ramps, etc
                     draw:
@@ -646,6 +645,33 @@ layers:
                         runway-dots:
                             color: [1.000,1.000,1.000]
                             width: [[12,2px],[15,15px],[20,100px]]
+
+        railway:
+            filter: { kind: rail, not: { kind_detail: [subway,light_rail,tram] } }
+            draw:
+                lines:
+                    dash: [0.5, 1.0]
+                    dash_background_color: [1.000,1.000,1.000]
+                    color: [0.000,0.000,0.000]
+                    width: [[12, 0px], [12, 0.5px], [18, 4px], [20, 2m]]
+                    # let roads sort themselves past zoom 14
+                    order: global.feature_order
+                    # but give them all the same outline
+                    outline:
+                        order: 354
+            bridges-tunnels:
+                filter: { any: [is_bridge: true, is_tunnel: true] }
+                draw:
+                    lines:
+                        outline:
+                            # except bridges and tunnels, their outlines should also self-sort
+                            order: function() { return feature.sort_rank || 305; }
+            service:
+                filter: { service: true }
+                draw:
+                    lines:
+                        color: [0.000,0.000,0.000]
+                        width: [[14,0px],[15,0.5px],[18,2px]]
 
 
         #     corridor:
@@ -847,6 +873,15 @@ layers:
             draw:
                 polygons:
                     style: pitch-texture
+                    # color: [1.000,0.000,0.000]
+                    visible: true
+
+        cemetery:
+            filter:
+                kind: cemetery
+            draw:
+                polygons:
+                    style: cemetery-texture
                     # color: [1.000,0.000,0.000]
                     visible: true
 
@@ -1121,7 +1156,7 @@ styles:
         mix: texture
         shaders:
             uniforms:
-                u_customtexture: images/earth-dots13.jpg
+                u_customtexture: images/earth-dots14.jpg
                 u_scale: 0.5
 
     buildings-universities:
@@ -1139,16 +1174,14 @@ styles:
             uniforms:
                 u_customtexture: images/farm3.jpg
                 u_scale: 0.75
-                # u_scale: 0.85
 
     national-parks-texture:
         base: polygons
         mix: texture
         shaders:
             uniforms:
-                u_customtexture: images/national-parks.jpg
-                u_scale: 0.65
-                # u_scale: 0.85
+                u_customtexture: images/national-parks8.jpg
+                u_scale: 0.5
 
     national-forest-texture:
         base: polygons
@@ -1204,6 +1237,14 @@ styles:
         shaders:
             uniforms:
                 u_customtexture: images/earth-dots4.jpg
+                u_scale: 1.0
+
+    cemetery-texture:
+        base: polygons
+        mix: texture
+        shaders:
+            uniforms:
+                u_customtexture: images/cemetery3.jpg
                 u_scale: 1.0
 
     runway-glow:
