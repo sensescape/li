@@ -3,6 +3,7 @@
 Tangram and Textures
 
 Li - Amsterdam [https://geraldinesarmiento.com/cartography/2020/6/21/li-amsterdam](https://geraldinesarmiento.com/cartography/2020/6/21/li-amsterdam)
+Li Drawings [https://geraldinesarmiento.com/cartography/2020/6/19/li](https://geraldinesarmiento.com/cartography/2020/6/19/li)
 
 ![li-amsterdam](https://raw.githubusercontent.com/sensescape/li/master/images/amsterdam4.jpg)
 
