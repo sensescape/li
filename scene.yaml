@@ -159,14 +159,14 @@ layers:
             draw:
                 polygons:
                     order: global.feature_order
-                    style: water-texture
+                    style: water-texture2
 
         oceans:
             filter: { kind: ocean }
             draw:
                 polygons:
                     order: global.feature_order
-                    style: water-texture
+                    style: water-texture2
 
         swimming-pools:
             filter: { kind: swimming_pool }
@@ -1470,6 +1470,14 @@ styles:
                         TileTexture(u_textures[0],u_scale).rgb,
                         TileTexture(u_textures[1],u_scale).rgb,
                         dz);
+
+    water-texture2:
+        base: polygons
+        mix: texture
+        shaders:
+            uniforms:
+                u_customtexture: images/water-waves-black8.jpg
+                u_scale: 0.5
 
     parks-texture:
         base: polygons
