@@ -159,14 +159,14 @@ layers:
             draw:
                 polygons:
                     order: global.feature_order
-                    style: water-texture2
+                    style: water-texture
 
         oceans:
             filter: { kind: ocean }
             draw:
                 polygons:
                     order: global.feature_order
-                    style: water-texture2
+                    style: water-texture
 
         swimming-pools:
             filter: { kind: swimming_pool }
