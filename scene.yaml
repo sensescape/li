@@ -1164,7 +1164,7 @@ styles:
         mix: texture
         shaders:
             uniforms:
-                u_customtexture: images/buildings-dots9.jpg
+                u_customtexture: images/man-made4.jpg
                 u_scale: 1.00
 
     buildings-universities:
@@ -1484,7 +1484,7 @@ styles:
         mix: texture
         shaders:
             uniforms:
-                u_customtexture: images/water9.jpg
+                u_customtexture: images/water3.jpg
                 u_scale: 0.5
 
     water-texture2:
