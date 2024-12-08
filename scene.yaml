@@ -1164,7 +1164,7 @@ styles:
         mix: texture
         shaders:
             uniforms:
-                u_customtexture: images/man-made4.jpg
+                u_customtexture: images/buildings-dots7.jpg
                 u_scale: 1.00
 
     buildings-universities:
@@ -1172,7 +1172,7 @@ styles:
         mix: texture
         shaders:
             uniforms:
-                u_customtexture: images/buildings-dots10.jpg
+                u_customtexture: images/buildings-dots7.jpg
                 u_scale: 1.00
 
     farms-texture:
