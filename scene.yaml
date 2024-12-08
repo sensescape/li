@@ -1476,7 +1476,7 @@ styles:
         mix: texture
         shaders:
             uniforms:
-                u_customtexture: images/water-dots2.jpg
+                u_customtexture: images/water10.jpg
                 u_scale: 0.5
 
     water-texture2:
