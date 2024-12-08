@@ -900,7 +900,7 @@ layers:
             draw:
                 polygons:
                     visible: true
-                    style: grid-gradient-buildings
+                    style: buildings1
 
         in_university:
             filter:
@@ -1158,6 +1158,14 @@ styles:
             uniforms:
                 u_customtexture: images/earth-dots14.jpg
                 u_scale: 0.5
+
+    buildings1:
+        base: polygons
+        mix: texture
+        shaders:
+            uniforms:
+                u_customtexture: images/buildings-dots9.jpg
+                u_scale: 1.00
 
     buildings-universities:
         base: polygons
