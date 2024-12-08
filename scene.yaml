@@ -1180,7 +1180,7 @@ styles:
         mix: texture
         shaders:
             uniforms:
-                u_customtexture: images/farm3.jpg
+                u_customtexture: images/forest1.jpg
                 u_scale: 0.75
 
     national-parks-texture:
