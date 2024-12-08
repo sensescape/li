@@ -744,7 +744,7 @@ layers:
                 not: { protect_class: ['2','3','5']}
             draw:
                 polygons:
-                    style: conservation-texture
+                    style: national-parks-texture
                     # color: [1.000,0.000,0.000]
                     visible: true
 
@@ -765,7 +765,7 @@ layers:
             filter: { kind: [forest, natural_forest, wood, natural_wood, natural_park], $zoom: { min: 10 }, not: { operator: "United States Forest Service" } }
             draw:
                 polygons:
-                    style: forest-texture
+                    style: national-forest-texture
                     # color: [1.000,0.000,0.000]
                     visible: true
 
@@ -780,7 +780,7 @@ layers:
             # default for national forests and more?
             draw:
                 polygons:
-                    style: parks-texture
+                    style: national-parks-texture
                     # color: [1.000,0.000,0.000]
                     visible: true
             national_park:
@@ -1476,7 +1476,7 @@ styles:
         mix: texture
         shaders:
             uniforms:
-                u_customtexture: images/water10.jpg
+                u_customtexture: images/water9.jpg
                 u_scale: 0.5
 
     water-texture2:
